@@ -65,6 +65,7 @@
         <module>report-aggregate</module>
         <module>source-file</module>
         <module>source-graphql</module>
+        <module>source-rest</module>
     </modules>
 
     <dependencies>
