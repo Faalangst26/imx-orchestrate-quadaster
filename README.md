@@ -8,6 +8,10 @@
 
 The documentation can be found here: https://imx-org.github.io/imx-orchestrate/
 
+## Team Quadaster
+
+Dit repository is bedoeld voor het projectteam Quadaster van Windesheim.
+
 ## License
 
 This library is published under the [MIT License](LICENSE.md).
