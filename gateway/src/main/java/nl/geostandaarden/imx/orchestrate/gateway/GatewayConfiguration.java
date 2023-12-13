@@ -105,6 +105,7 @@ public class GatewayConfiguration {
         .orElseThrow(() -> new GatewayException(String.format("Source type '%s' not found.", source.getType())));
   }
 
+
   @Bean
   public DefaultExecutionGraphQlService graphQlService(GraphQlSource graphQlSource) {
     return new DefaultExecutionGraphQlService(graphQlSource);
