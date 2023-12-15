@@ -1,10 +1,10 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.mapper;
+package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
 import graphql.language.*;
 import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
-import nl.geostandaarden.imx.orchestrate.souce.rest.config.RestOrchestrateConfig;
-import nl.geostandaarden.imx.orchestrate.souce.rest.executor.ExecutionInputRest;
+import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest;
 
 
 import java.util.List;

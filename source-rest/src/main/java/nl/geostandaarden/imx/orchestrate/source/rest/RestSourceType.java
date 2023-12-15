@@ -1,13 +1,11 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest;
+package nl.geostandaarden.imx.orchestrate.source.rest;
 
 import com.google.auto.service.AutoService;
 import nl.geostandaarden.imx.orchestrate.engine.source.Source;
 import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
 import nl.geostandaarden.imx.orchestrate.engine.source.SourceType;
 import nl.geostandaarden.imx.orchestrate.model.Model;
-import nl.geostandaarden.imx.orchestrate.souce.rest.config.RestOrchestrateConfig;
-import nl.geostandaarden.imx.orchestrate.source.graphql.GraphQlSource;
-import nl.geostandaarden.imx.orchestrate.source.graphql.config.GraphQlOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 
 import java.util.Map;
 

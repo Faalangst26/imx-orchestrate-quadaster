@@ -1,4 +1,4 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.mapper;
+package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
 import static org.springframework.util.StringUtils.uncapitalize;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import nl.geostandaarden.imx.orchestrate.souce.rest.config.RestOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

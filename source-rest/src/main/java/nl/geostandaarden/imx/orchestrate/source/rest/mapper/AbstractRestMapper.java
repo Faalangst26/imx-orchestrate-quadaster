@@ -1,12 +1,11 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.mapper;
+package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
-import graphql.ExecutionInput;
 import graphql.language.Field;
 import graphql.language.SelectionSet;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.SelectedProperty;
 import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
-import nl.geostandaarden.imx.orchestrate.souce.rest.executor.ExecutionInputRest;
+import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest;
 
 import java.util.List;
 import java.util.Set;

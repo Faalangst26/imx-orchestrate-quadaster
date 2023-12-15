@@ -18,3 +18,8 @@ orchestrate:
       type: file
       options:
         dataPath: ../data/land
+    border:
+      type: rest
+      options:
+        url: "https://brk.basisregistraties.overheid.nl/api/bestuurlijke-grenzen/v2/bestuurlijke-gebieden"
+

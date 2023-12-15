@@ -1,4 +1,4 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.config;
+package nl.geostandaarden.imx.orchestrate.source.rest.config;
 
 import lombok.Builder;
 import lombok.Getter;

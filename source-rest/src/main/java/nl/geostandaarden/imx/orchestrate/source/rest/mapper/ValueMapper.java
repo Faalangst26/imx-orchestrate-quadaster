@@ -1,4 +1,4 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.mapper;
+package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
 import graphql.language.*;
 import lombok.AccessLevel;

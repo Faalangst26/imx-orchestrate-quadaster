@@ -1,22 +1,20 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.mapper;
+package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
-import graphql.ExecutionInput;
 import graphql.language.*;
 import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
 import nl.geostandaarden.imx.orchestrate.model.filters.FilterExpression;
 import nl.geostandaarden.imx.orchestrate.model.filters.FilterOperator;
-import nl.geostandaarden.imx.orchestrate.souce.rest.config.RestOrchestrateConfig;
-import nl.geostandaarden.imx.orchestrate.souce.rest.executor.ExecutionInputRest;
-import nl.geostandaarden.imx.orchestrate.source.graphql.config.GraphQlOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static nl.geostandaarden.imx.orchestrate.souce.rest.mapper.MapperConstants.NODES;
+import static nl.geostandaarden.imx.orchestrate.source.rest.mapper.MapperConstants.NODES;
 import static org.springframework.util.StringUtils.uncapitalize;
 
 @RequiredArgsConstructor
