@@ -29,7 +29,7 @@ public class RemoteExecutor implements Executor{
 
     //Execute een input, return deze als ExecutionResult.
     @Override
-    public Mono<ExecutionResult> execute(ExecutionInput input) {
+    public Mono<ExecutionResult> execute(ExecutionInputRest input) {
         //ParameterizedTypeReference zorgt ervoor dat de Generic Types bewaard kunnen blijven
         var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
         var body = Map.of("query", input.getQuery(), "variables", input.getVariables());

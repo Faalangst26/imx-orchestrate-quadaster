@@ -58,6 +58,10 @@ public class ExecutionInputRest {
         return new ExecutionInput.Builder().query(query);
     }
 
+    public Map<String, Object> getVariables() {
+        return this.rawVariables.toMap();
+    }
+
     public static class Builder {
 
         private String query;
