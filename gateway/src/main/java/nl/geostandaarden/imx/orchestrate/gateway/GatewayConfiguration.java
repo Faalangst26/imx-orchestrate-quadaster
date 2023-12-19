@@ -24,12 +24,15 @@ import nl.geostandaarden.imx.orchestrate.model.loader.ModelLoader;
 import nl.geostandaarden.imx.orchestrate.model.loader.ModelLoaderRegistry;
 import nl.geostandaarden.imx.orchestrate.model.types.ValueTypeRegistry;
 import nl.geostandaarden.imx.orchestrate.parser.yaml.YamlModelMappingParser;
+import nl.geostandaarden.imx.orchestrate.source.rest.RestSource;
+import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.DefaultExecutionGraphQlService;
 import org.springframework.graphql.execution.GraphQlSource;
+
 
 @Configuration
 @RequiredArgsConstructor
@@ -104,6 +107,7 @@ public class GatewayConfiguration {
         .map(s -> s.create(sourceModels.get(dataset), source.getOptions()))
         .orElseThrow(() -> new GatewayException(String.format("Source type '%s' not found.", source.getType())));
   }
+
 
   @Bean
   public DefaultExecutionGraphQlService graphQlService(GraphQlSource graphQlSource) {

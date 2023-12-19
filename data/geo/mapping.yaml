@@ -8,6 +8,8 @@ sourceModels:
     location: ../data/city/model.yaml
   land:
     location: ../data/land/model.yaml
+  border:
+    location: ../data/border/model.yaml
 
 sourceRelations:
   - sourceType: adr:Address
@@ -21,6 +23,17 @@ sourceRelations:
         id: parcel
 
 objectTypeMappings:
+  Publicbody:
+    - sourceRoot: border:Publicbody
+      propertyMappings:
+        id:
+          pathMappings:
+            path: id
+        geometry:
+          pathMappings:
+            path: geometry
+
+
   Construction:
     - sourceRoot: city:Building
       propertyMappings:

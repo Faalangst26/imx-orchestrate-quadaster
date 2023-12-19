@@ -1,8 +1,8 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.executor;
+package nl.geostandaarden.imx.orchestrate.source.rest.executor;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import nl.geostandaarden.imx.orchestrate.souce.rest.config.RestOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;

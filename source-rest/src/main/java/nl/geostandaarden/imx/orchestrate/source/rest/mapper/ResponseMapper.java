@@ -1,4 +1,4 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.mapper;
+package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
 import static org.springframework.util.StringUtils.uncapitalize;
 
@@ -8,51 +8,64 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import nl.geostandaarden.imx.orchestrate.souce.rest.config.RestOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 public class ResponseMapper {
 
+    //Configuratie gegevens, worden geset de in RestSourceType klasse
     private final RestOrchestrateConfig config;
 
+
+    //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
+    //0..1 resultaten
     public Mono<Map<String, Object>> processFindOneResult(Mono<ExecutionResult> executionResult) {
-        /*return executionResult.map(result -> Optional.ofNullable((Map<String, Object>) result.getData())
+        return executionResult.map(result -> Optional.ofNullable((Map<String, Object>) result.getData())
                         .orElse(Map.of()))
-                .map(ResponseMapper::unwrapRefs);*/
-        return null;
+                .map(ResponseMapper::unwrapRefs);
     }
 
+    //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
+    //0..N resultaten
     public Flux<Map<String, Object>> processFindResult(Mono<ExecutionResult> executionResult, String objectName) {
-        /*return executionResult.map(e -> getCollectionResult(e, objectName))
+        return executionResult.map(e -> getCollectionResult(e, objectName))
                 .flatMapMany(Flux::fromIterable)
-                .map(ResponseMapper::unwrapRefs);*/
-        return null;
+                .map(ResponseMapper::unwrapRefs);
+
     }
 
+    //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
+    //0..N resultaten
     public Flux<Map<String, Object>> processBatchResult(Mono<ExecutionResult> executionResult, String objectName) {
-        /*return executionResult.map(e -> getBatchResult(e, objectName))
+        return executionResult.map(e -> getBatchResult(e, objectName))
                 .flatMapMany(Flux::fromIterable)
-                .map(ResponseMapper::unwrapRefs);*/
-        return null;
+                .map(ResponseMapper::unwrapRefs);
+
     }
 
+    //Verkrijg een list met Maps<String, Object> vanuit een executionResult
     private List<Map<String, Object>> getCollectionResult(ExecutionResult executionResult, String objectName) {
-/*        var data = executionResult.getData();
+        var data = executionResult.getData();
         var result = ((Map<String, Map<String, List<Map<String, Object>>>>) data)
                 .get(uncapitalize(objectName) + config.getCollectionSuffix());
-        return result.get(MapperConstants.NODES);*/
-        return null;
+        //TODO: wat gebeurt hier???
+        return result.get(MapperConstants.NODES);
+
     }
 
+    //Verkrijg een lijst met Maps<String, Object> vanuit een executionResult
     private List<Map<String, Object>> getBatchResult(ExecutionResult executionResult, String objectName) {
-        /*var data = executionResult.getData();
-        return ((Map<String, List<Map<String, Object>>>) data).get(uncapitalize(objectName) + config.getBatchSuffix());*/
-        return null;
+        var data = executionResult.getData();
+        return ((Map<String, List<Map<String, Object>>>) data)
+                .get(uncapitalize(objectName) + config.getBatchSuffix());
     }
+
+    //Kijk in de input of er values met de key "ref" of "refs" in een map zitten, en verkrijg hiervan de bijhorende value.
+    //Return dan alleen alles uit de input met "ref" of "refs" erin.
     private static Map<String, Object> unwrapRefs(Map<String, Object> item) {
-        /*return item.entrySet()
+        return item.entrySet()
                 .stream()
                 .collect(HashMap::new, (acc, e) -> {
                     var value = e.getValue();
@@ -68,7 +81,6 @@ public class ResponseMapper {
                     }
 
                     acc.put(e.getKey(), value);
-                }, HashMap::putAll);*/
-        return null;
+                }, HashMap::putAll);
     }
 }

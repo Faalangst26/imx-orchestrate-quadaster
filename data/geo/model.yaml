@@ -18,6 +18,16 @@ objectTypes:
         inverseName: isAddressOf
         inverseCardinality: 1
 
+  Publicbody:
+    attributes:
+      id:
+        type: String
+        identifier: true
+        cardinality: 1
+      geometry:
+        type: Geometry
+        cardinality: 0..1
+
   Address:
     attributes:
       id:
