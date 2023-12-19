@@ -86,41 +86,6 @@ public class GatewayConfiguration {
     };
   }
 
-  @Bean
-  public RestSource restApiSource() throws IOException {
-    var extensions = Set.of(new SpatialExtension());
-
-    var componentRegistry = new ComponentRegistry();
-    extensions.forEach(extension -> extension.registerComponents(componentRegistry));
-
-    var modelLoaderRegistry = new ModelLoaderRegistry();
-    resolveModelLoaders().forEach(modelLoaderRegistry::register);
-
-    var valueTypeRegistry = new ValueTypeRegistry();
-    extensions.forEach(extension -> extension.registerValueTypes(valueTypeRegistry));
-
-    var modelMapping = new YamlModelMappingParser(componentRegistry, modelLoaderRegistry, valueTypeRegistry)
-            .parse(new FileInputStream(gatewayProperties.getMapping()));
-
-    var sourceModelMap = modelMapping.getSourceModels().stream()
-            .collect(toUnmodifiableMap(Model::getAlias, Function.identity()));
-
-    var sources = gatewayProperties.getSources()
-            .entrySet()
-            .stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, e -> resolveSource(e.getKey(), e.getValue(), sourceModelMap)));
-
-    //TODO: API KEY uit een locale input OID halen!
-    var restOrchestrateConfig = RestOrchestrateConfig.builder()
-            .authToken("API-KEY-HIER!".toCharArray()) //replace with actual token
-            .baseUrl("https://brk.basisregistraties.overheid.nl/api/bestuurlijke-grenzen/v2/bestuurlijke-gebieden") //replace with actual baseURL
-            .collectionSuffix("Collection") //default value
-            .batchSuffix("Batch") //default value
-            .build();
-
-    return new RestSource(restOrchestrateConfig);
-  }
-
   private Set<ModelLoader> resolveModelLoaders() {
     return ServiceLoader.load(ModelLoader.class)
         .stream()
