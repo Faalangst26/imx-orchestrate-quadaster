@@ -8,11 +8,12 @@ import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
 import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 abstract class AbstractRestMapper<T extends DataRequest> {
 
-  abstract ExecutionInputRest convert(T request);
+  abstract Map<String, String> convert(T request);
 
   protected SelectionSet createSelectionSet(Set<SelectedProperty> selectedProperties) {
     if (selectedProperties.isEmpty()) {

@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class RemoteExecutor implements Executor{
+public class RemoteExecutor implements ApiExecutor{
     private static final String DATA = "data";
 
     private final WebClient webClient;
@@ -26,35 +26,10 @@ public class RemoteExecutor implements Executor{
         return new RemoteExecutor(RestWebClient.create(config));
     }
 
-    //Execute een input, return deze als ExecutionResult.
     @Override
-    public Mono<ExecutionResult> execute(ExecutionInputRest input) {
-        // ParameterizedTypeReference keeps the Generic Types
-        var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
-        var body = Map.of("query", input.getQuery(), "variables", input.getVariables());
-
-        // Logging
-        if (log.isDebugEnabled()) {
-            log.debug("Sending request: \n\n{}\n", input.getQuery());
-        }
-
-        // Perform a GET request via the WebClient class, which was created in the constructor with the config
-        // Map the results via the mapToResult() function
-        // Return an ExecutionResult
-        return this.webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .queryParam("query", input.getQuery()) // replace with actual query parameters
-                        .build())
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(mapTypeRef)
-                .map(RemoteExecutor::mapToResult);
+    public Mono<String> execute(Map<String, String> input) {
+        return null;
     }
 
-    //doe iets
-    private static ExecutionResult mapToResult(Map<String, Object> body) {
-        return ExecutionResultImpl.newExecutionResult()
-                .data(body.get(DATA))
-                .build();
-    }
+
 }

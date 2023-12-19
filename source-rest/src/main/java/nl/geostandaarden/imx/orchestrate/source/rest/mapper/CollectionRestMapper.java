@@ -13,6 +13,7 @@ import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static nl.geostandaarden.imx.orchestrate.source.rest.mapper.MapperConstants.NODES;
 import static org.springframework.util.StringUtils.uncapitalize;
@@ -24,41 +25,8 @@ public class CollectionRestMapper extends AbstractRestMapper<CollectionRequest> 
 
   private final RestOrchestrateConfig config;
 
-  public ExecutionInputRest convert(CollectionRequest request) {
-    var filterExpression = request.getFilter();
-
-    var fieldName = uncapitalize(request.getObjectType()
-        .getName()) + config.getCollectionSuffix();
-
-    var selectionSet = createSelectionSet(request.getSelectedProperties());
-    var nodes = new Field(NODES, selectionSet);
-
-    var fieldBuilder = Field.newField(fieldName)
-        .selectionSet(new SelectionSet(List.of(nodes)));
-
-    if (filterExpression != null) {
-      var filterField = getFilterField(filterExpression);
-      var filterValue = ObjectValue.newObjectValue()
-          .objectField(filterField)
-          .build();
-
-      var filter = Argument.newArgument()
-          .name("filter")
-          .value(filterValue)
-          .build();
-
-      fieldBuilder.arguments(List.of(filter));
-    }
-
-    var query = OperationDefinition.newOperationDefinition()
-        .name(OPERATION_NAME)
-        .operation(OperationDefinition.Operation.QUERY)
-        .selectionSet(new SelectionSet(List.of(fieldBuilder.build())))
-        .build();
-
-    return ExecutionInputRest.newExecutionInput()
-        .query(AstPrinter.printAst(query))
-        .build();
+  public Map<String, String> convert(CollectionRequest request) {
+    return null;
   }
 
   private ObjectField getFilterField(FilterExpression filterExpression) {

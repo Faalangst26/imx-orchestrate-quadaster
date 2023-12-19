@@ -8,8 +8,9 @@ import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest
 
 
 import java.util.List;
+import java.util.Map;
 
-import static org.springframework.util.StringUtils.uncapitalize;
+import static org.springframework.util.StringUtils.*;
 
 @RequiredArgsConstructor
 public class ObjectRestMapper extends AbstractRestMapper<ObjectRequest> {
@@ -19,24 +20,11 @@ public class ObjectRestMapper extends AbstractRestMapper<ObjectRequest> {
   private final RestOrchestrateConfig config;
 
   @Override
-  public ExecutionInputRest convert(ObjectRequest request) {
-    var fieldName = uncapitalize(request.getObjectType()
-        .getName());
+  public Map<String, String> convert(ObjectRequest request) {
+    request.getSelectedProperties();
 
-    var arguments = getArguments(request);
 
-    var selectionSet = createSelectionSet(request.getSelectedProperties());
-    var queryField = new Field(fieldName, arguments, selectionSet);
-
-    var query = OperationDefinition.newOperationDefinition()
-        .name(OPERATION_NAME)
-        .operation(OperationDefinition.Operation.QUERY)
-        .selectionSet(new SelectionSet(List.of(queryField)))
-        .build();
-
-    return ExecutionInputRest.newExecutionInput()
-        .query(AstPrinter.printAst(query))
-        .build();
+    return null;
   }
 
   private List<Argument> getArguments(ObjectRequest request) {

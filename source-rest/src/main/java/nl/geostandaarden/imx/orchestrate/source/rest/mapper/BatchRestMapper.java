@@ -9,6 +9,7 @@ import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.springframework.util.StringUtils.uncapitalize;
@@ -20,24 +21,9 @@ public class BatchRestMapper extends AbstractRestMapper<BatchRequest> {
 
   private final RestOrchestrateConfig config;
 
-  public ExecutionInputRest convert(BatchRequest request) {
-    var fieldName = uncapitalize(request.getObjectType()
-        .getName()) + config.getBatchSuffix();
+  public Map<String, String> convert(BatchRequest request) {
 
-    var arguments = getArguments(request);
-
-    var selectionSet = createSelectionSet(request.getSelectedProperties());
-    var queryField = new Field(fieldName, arguments, selectionSet);
-
-    var query = OperationDefinition.newOperationDefinition()
-        .name(OPERATION_NAME)
-        .operation(OperationDefinition.Operation.QUERY)
-        .selectionSet(new SelectionSet(List.of(queryField)))
-        .build();
-
-    return ExecutionInputRest.newExecutionInput()
-        .query(AstPrinter.printAst(query))
-        .build();
+    return null;
   }
 
   private List<Argument> getArguments(BatchRequest request) {

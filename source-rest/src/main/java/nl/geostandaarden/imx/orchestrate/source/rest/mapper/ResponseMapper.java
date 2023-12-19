@@ -21,15 +21,13 @@ public class ResponseMapper {
 
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..1 resultaten
-    public Mono<Map<String, Object>> processFindOneResult(Mono<ExecutionResult> executionResult) {
-        return executionResult.map(result -> Optional.ofNullable((Map<String, Object>) result.getData())
-                        .orElse(Map.of()))
-                .map(ResponseMapper::unwrapRefs);
+    public Mono<Map<String, Object>> processFindOneResult(Mono<String> executionResult) {
+        return null;
     }
 
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..N resultaten
-    public Flux<Map<String, Object>> processFindResult(Mono<ExecutionResult> executionResult, String objectName) {
+    public Flux<Map<String, Object>> processFindResult(Mono<String> executionResult, String objectName) {
         return executionResult.map(e -> getCollectionResult(e, objectName))
                 .flatMapMany(Flux::fromIterable)
                 .map(ResponseMapper::unwrapRefs);
@@ -38,20 +36,14 @@ public class ResponseMapper {
 
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..N resultaten
-    public Flux<Map<String, Object>> processBatchResult(Mono<ExecutionResult> executionResult, String objectName) {
-        return executionResult.map(e -> getBatchResult(e, objectName))
-                .flatMapMany(Flux::fromIterable)
-                .map(ResponseMapper::unwrapRefs);
+    public Flux<Map<String, Object>> processBatchResult(Mono<String> executionResult, String objectName) {
+        return null;
 
     }
 
     //Verkrijg een list met Maps<String, Object> vanuit een executionResult
-    private List<Map<String, Object>> getCollectionResult(ExecutionResult executionResult, String objectName) {
-        var data = executionResult.getData();
-        var result = ((Map<String, Map<String, List<Map<String, Object>>>>) data)
-                .get(uncapitalize(objectName) + config.getCollectionSuffix());
-        //TODO: wat gebeurt hier???
-        return result.get(MapperConstants.NODES);
+    private List<Map<String, Object>> getCollectionResult(String executionResult, String objectName) {
+        return null;
 
     }
 
