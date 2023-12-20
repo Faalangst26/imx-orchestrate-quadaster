@@ -1,9 +1,7 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.executor;
 
-import graphql.ExecutionResult;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
 import java.util.Map;
 
 public interface ApiExecutor {
@@ -13,5 +11,5 @@ public interface ApiExecutor {
     //code => GM0014
     //omzetten naar string
     //
-    public Mono<ExecutionResult> execute(Map<String, String> input);
+    public Mono<Map<String, Object>> execute(Map<String, Object> input);
 }

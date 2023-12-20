@@ -25,7 +25,7 @@ public class CollectionRestMapper extends AbstractRestMapper<CollectionRequest> 
 
   private final RestOrchestrateConfig config;
 
-  public Map<String, String> convert(CollectionRequest request) {
+  public Map<String, Object> convert(CollectionRequest request) {
     return null;
   }
 

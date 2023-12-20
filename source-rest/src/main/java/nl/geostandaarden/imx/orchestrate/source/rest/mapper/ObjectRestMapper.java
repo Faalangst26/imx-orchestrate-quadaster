@@ -23,11 +23,9 @@ public class ObjectRestMapper extends AbstractRestMapper<ObjectRequest> {
   private final RestOrchestrateConfig config;
 
   @Override
-  public Map<String, String> convert(ObjectRequest request) {
-    var properties = request.getObjectKey();
-    Map<String,String> queryValues = properties.entrySet().stream()
-            .collect(Collectors.toMap(Map.Entry::getKey, e -> (String)e.getValue()));
-    return queryValues;
+  public Map<String, Object> convert(ObjectRequest request) {
+
+    return request.getObjectKey();
 
   }
 

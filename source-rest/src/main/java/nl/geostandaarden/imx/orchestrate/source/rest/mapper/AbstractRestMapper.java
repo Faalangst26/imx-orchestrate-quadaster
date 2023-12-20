@@ -13,7 +13,7 @@ import java.util.Set;
 
 abstract class AbstractRestMapper<T extends DataRequest> {
 
-  abstract Map<String, String> convert(T request);
+  abstract Map<String, Object> convert(T request);
 
   protected SelectionSet createSelectionSet(Set<SelectedProperty> selectedProperties) {
     if (selectedProperties.isEmpty()) {

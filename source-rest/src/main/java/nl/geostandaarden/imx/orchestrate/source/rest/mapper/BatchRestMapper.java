@@ -21,7 +21,7 @@ public class BatchRestMapper extends AbstractRestMapper<BatchRequest> {
 
   private final RestOrchestrateConfig config;
 
-  public Map<String, String> convert(BatchRequest request) {
+  public Map<String, Object> convert(BatchRequest request) {
 
     return null;
   }
