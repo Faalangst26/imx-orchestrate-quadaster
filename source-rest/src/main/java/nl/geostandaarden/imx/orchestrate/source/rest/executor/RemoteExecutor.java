@@ -23,11 +23,7 @@ public class RemoteExecutor implements ApiExecutor{
     }
 
     @Override
-<<<<<<< Updated upstream
     public Mono<Map<String, Object>> execute(Map<String, Object> input) {
-=======
-    public Mono<Map<String, Object>> execute(Map<String, String> input) {
->>>>>>> Stashed changes
         var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
 
         return this.webClient.get()
