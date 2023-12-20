@@ -5,14 +5,11 @@ import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
-import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import static org.springframework.util.StringUtils.uncapitalize;
 
 @RequiredArgsConstructor
 public class BatchRestMapper extends AbstractRestMapper<BatchRequest> {

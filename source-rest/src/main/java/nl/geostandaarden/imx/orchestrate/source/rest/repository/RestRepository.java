@@ -8,7 +8,6 @@ import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.DataRepository;
 import nl.geostandaarden.imx.orchestrate.model.ObjectType;
 import nl.geostandaarden.imx.orchestrate.source.rest.executor.ApiExecutor;
-import nl.geostandaarden.imx.orchestrate.source.rest.executor.Executor;
 import nl.geostandaarden.imx.orchestrate.source.rest.mapper.BatchRestMapper;
 import nl.geostandaarden.imx.orchestrate.source.rest.mapper.CollectionRestMapper;
 import nl.geostandaarden.imx.orchestrate.source.rest.mapper.ObjectRestMapper;

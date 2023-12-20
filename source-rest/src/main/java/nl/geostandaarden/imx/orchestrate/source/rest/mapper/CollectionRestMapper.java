@@ -7,16 +7,12 @@ import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
 import nl.geostandaarden.imx.orchestrate.model.filters.FilterExpression;
 import nl.geostandaarden.imx.orchestrate.model.filters.FilterOperator;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
-import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import static nl.geostandaarden.imx.orchestrate.source.rest.mapper.MapperConstants.NODES;
-import static org.springframework.util.StringUtils.uncapitalize;
 
 @RequiredArgsConstructor
 public class CollectionRestMapper extends AbstractRestMapper<CollectionRequest> {

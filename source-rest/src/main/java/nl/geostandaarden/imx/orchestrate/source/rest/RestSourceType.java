@@ -42,6 +42,9 @@ public class RestSourceType implements SourceType {
     if (!options.containsKey(URL_KEY)) {
       throw new SourceException(String.format("Config '%s' is missing.", URL_KEY));
     }
+    if(!options.containsKey(API_KEY)) {
+      throw new SourceException(String.format("Config '%s' is missing.", API_KEY));
+    }
   }
 
   private static RestOrchestrateConfig createConfig(Map<String, Object> options) {

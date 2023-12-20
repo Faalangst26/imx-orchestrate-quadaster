@@ -4,16 +4,10 @@ import graphql.language.*;
 import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
-import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest;
 
 
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
-
-import static org.springframework.util.StringUtils.*;
 
 @RequiredArgsConstructor
 public class ObjectRestMapper extends AbstractRestMapper<ObjectRequest> {
