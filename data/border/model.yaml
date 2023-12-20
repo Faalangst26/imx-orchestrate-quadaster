@@ -9,10 +9,6 @@ objectTypes:
         type: String
         identifier: true
         cardinality: 1
-      cringe:
-        type: String
-        identifier: true
-        cardinality: 0..1
       geometry:
         type: Geometry
         cardinality: 0..1
