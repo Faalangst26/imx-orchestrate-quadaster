@@ -11,5 +11,9 @@ public interface ApiExecutor {
     //code => GM0014
     //omzetten naar string
     //
+<<<<<<< Updated upstream
     public Mono<Map<String, Object>> execute(Map<String, Object> input);
+=======
+    public Mono<Map<String, Object>> execute(Map<String, String> input);
+>>>>>>> Stashed changes
 }
