@@ -24,6 +24,10 @@ objectTypes:
         type: String
         identifier: true
         cardinality: 1
+      type:
+        type: String
+        identifier: true
+        cardinality: 1
       geometry:
         type: Geometry
         cardinality: 0..1

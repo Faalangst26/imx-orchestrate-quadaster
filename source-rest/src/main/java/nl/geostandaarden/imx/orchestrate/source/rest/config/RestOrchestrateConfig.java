@@ -10,6 +10,8 @@ public class RestOrchestrateConfig {
 
     private String baseUrl;
 
+    private String apiKey;
+
     @Builder.Default
     private String collectionSuffix = "Collection";
 

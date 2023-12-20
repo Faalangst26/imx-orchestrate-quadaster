@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.mapper.ResponseMapper;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -27,8 +28,33 @@ public class RemoteExecutor implements ApiExecutor{
     }
 
     @Override
-    public Mono<String> execute(Map<String, String> input) {
-        return null;
+    public Mono<ExecutionResult> execute(Map<String, String> input) {
+
+        var body = input;
+        var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
+
+        return this.webClient.get()
+
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(mapTypeRef)
+                .map(RemoteExecutor::mapToResult);
+
+
+//        return this.webClient.get()
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON)
+//                .body(BodyInserters.fromValue(body))
+//                .retrieve()
+//                .bodyToMono(mapTypeRef)
+//                .map(RemoteExecutor::mapToResult);
+
+    }
+
+    private static ExecutionResult mapToResult(Map<String, Object> body) {
+        return ExecutionResultImpl.newExecutionResult()
+                .data(body.get(DATA))
+                .build();
     }
 
 

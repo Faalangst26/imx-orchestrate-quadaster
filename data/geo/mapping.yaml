@@ -29,9 +29,13 @@ objectTypeMappings:
         id:
           pathMappings:
             path: id
+        type:
+          pathMappings:
+            path: type
         geometry:
           pathMappings:
             path: geometry
+
 
 
   Construction:

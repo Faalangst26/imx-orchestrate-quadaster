@@ -7,8 +7,11 @@ import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfi
 import nl.geostandaarden.imx.orchestrate.source.rest.executor.ExecutionInputRest;
 
 
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.*;
 
@@ -21,10 +24,11 @@ public class ObjectRestMapper extends AbstractRestMapper<ObjectRequest> {
 
   @Override
   public Map<String, String> convert(ObjectRequest request) {
-    request.getSelectedProperties();
+    var properties = request.getObjectKey();
+    Map<String,String> queryValues = properties.entrySet().stream()
+            .collect(Collectors.toMap(Map.Entry::getKey, e -> (String)e.getValue()));
+    return queryValues;
 
-
-    return null;
   }
 
   private List<Argument> getArguments(ObjectRequest request) {

@@ -22,6 +22,8 @@ public class RestSourceType implements SourceType {
 
   private static final String URL_KEY = "url";
 
+  private static final String API_KEY = "apiKey";
+
   @Override
   public String getName() {
     return SOURCE_TYPE;
@@ -35,6 +37,7 @@ public class RestSourceType implements SourceType {
     return new RestSource(config);
   }
 
+  //TODO: Api-Key misschien ook nog valideren?
   private void validate(Map<String, Object> options) {
     if (!options.containsKey(URL_KEY)) {
       throw new SourceException(String.format("Config '%s' is missing.", URL_KEY));
@@ -45,6 +48,11 @@ public class RestSourceType implements SourceType {
     var configBuilder = RestOrchestrateConfig.builder()
         .baseUrl(options.get(URL_KEY)
             .toString());
+
+    if (options.containsKey(API_KEY)){
+      configBuilder.apiKey(options.get(API_KEY)
+              .toString());
+    }
 
     if (options.containsKey(BEARER_TOKEN)) {
       configBuilder.authToken(options.get(BEARER_TOKEN)

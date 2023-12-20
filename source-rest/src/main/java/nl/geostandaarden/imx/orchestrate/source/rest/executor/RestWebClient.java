@@ -16,9 +16,14 @@ import java.util.function.Consumer;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 final class RestWebClient {
+
     static WebClient create(RestOrchestrateConfig config) {
-        Consumer<HttpHeaders> headerBuilder = headers -> Optional.ofNullable(config.getAuthToken())
-                .ifPresent(bearerAuth -> headers.add("Authorization", "Bearer ".concat(String.valueOf(bearerAuth))));
+        var key = config.getApiKey();
+//        Consumer<HttpHeaders> headerBuilder = headers -> Optional.ofNullable(config.getAuthToken())
+//                .ifPresent(bearerAuth -> headers.add("Authorization", "Bearer ".concat(String.valueOf(bearerAuth))));
+
+        Consumer<HttpHeaders> headerBuilder = headers -> Optional.ofNullable(config.getApiKey())
+                .ifPresent(apiKey -> headers.add("X-Api-Key", apiKey));
 
         ConnectionProvider provider = ConnectionProvider.builder("orchestrate")
                 .maxIdleTime(Duration.ofSeconds(10))
