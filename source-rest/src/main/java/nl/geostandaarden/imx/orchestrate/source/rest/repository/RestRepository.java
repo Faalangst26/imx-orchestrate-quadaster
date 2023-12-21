@@ -43,51 +43,26 @@ public class RestRepository implements DataRepository {
         //TODO: Deze ramp weghalen en vervangen door iets goeds.
         log.debug("findOne bereikt!");
         Map<String, Object> output = new HashMap<String, Object>();
-        var emir = responseMapper.processFindOneResult(this.executor.execute(rest));
-        var uitgepakt = emir;
-        uitgepakt.subscribe(items -> {
-            for (var item : items.values() ){
-                var values = item.toString();
-                for (var prop : objectRequest.getSelectedProperties()){
-
-
-                    int foundIndex = values.indexOf(prop.toString() + "=");
-                    String val = values.substring(foundIndex + prop.toString().length() + 1, values.indexOf(',', foundIndex));
-
-                    log.debug("Looking for property: " + prop + "  value: " + val + "\n");
-
-                    output.put(prop.toString() , val);
-                }
-
-                log.debug(item + "\n");
-                break;
-            }
-            output.put("id", "A0001");
-            for (var outputitem : output.keySet()){
-                log.debug("output map: " + outputitem + ":" + output.get(outputitem));
-            }
-
-        }, error -> {
-
-        });
+        var emir = responseMapper.processFindOneResult(this.executor.execute(rest, objectRequest));
 
 
 
 
-        return Mono.justOrEmpty(output);
+        return emir;
+        //return Mono.justOrEmpty(output);
        // return emir;
     }
 
     @Override
     public Flux<Map<String, Object>> find(CollectionRequest collectionRequest) {
         var rest = collectionRestMapper.convert(collectionRequest);
-        return responseMapper.processFindResult(this.executor.execute(rest), getName(collectionRequest));
+        return responseMapper.processFindResult(this.executor.execute(rest, collectionRequest), getName(collectionRequest));
     }
 
     @Override
     public Flux<Map<String, Object>> findBatch(BatchRequest batchRequest) {
         var rest = batchRestMapper.convert(batchRequest);
-        return responseMapper.processBatchResult(this.executor.execute(rest), getName(batchRequest));
+        return responseMapper.processBatchResult(this.executor.execute(rest, batchRequest), getName(batchRequest));
     }
 
     @Override
