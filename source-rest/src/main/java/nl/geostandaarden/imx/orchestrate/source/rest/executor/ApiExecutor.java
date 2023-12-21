@@ -10,6 +10,5 @@ public interface ApiExecutor {
     //bestuurslaag => gemeente
     //code => GM0014
     //omzetten naar string
-    //
     public Mono<Map<String, Object>> execute(Map<String, Object> input);
 }

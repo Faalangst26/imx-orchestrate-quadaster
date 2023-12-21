@@ -1,6 +1,6 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
-import graphql.language.*;
+
 import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
@@ -21,17 +21,6 @@ public class ObjectRestMapper extends AbstractRestMapper<ObjectRequest> {
 
     return request.getObjectKey();
 
-  }
-
-  private List<Argument> getArguments(ObjectRequest request) {
-    return request.getObjectKey()
-            .entrySet()
-            .stream()
-            .map(entry -> getArgument(entry.getKey(), entry.getValue()))
-            .toList();
-  }
-  private Argument getArgument(String name, Object value) {
-    return new Argument(name, ValueMapper.mapToValue(value));
   }
 
 

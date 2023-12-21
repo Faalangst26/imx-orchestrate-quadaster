@@ -1,6 +1,8 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.repository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
@@ -15,10 +17,13 @@ import nl.geostandaarden.imx.orchestrate.source.rest.mapper.ResponseMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.HashMap;
 import java.util.Map;
 
 
+
 @RequiredArgsConstructor
+@Slf4j
 public class RestRepository implements DataRepository {
     //Executor van RemoteExecutor
     private final ApiExecutor executor;
@@ -34,7 +39,43 @@ public class RestRepository implements DataRepository {
     @Override
     public Mono<Map<String, Object>> findOne(ObjectRequest objectRequest) {
         var rest = objectRestMapper.convert(objectRequest);
-        return responseMapper.processFindOneResult(this.executor.execute(rest));
+
+        //TODO: Deze ramp weghalen en vervangen door iets goeds.
+        log.debug("findOne bereikt!");
+        Map<String, Object> output = new HashMap<String, Object>();
+        var emir = responseMapper.processFindOneResult(this.executor.execute(rest));
+        var uitgepakt = emir;
+        uitgepakt.subscribe(items -> {
+            for (var item : items.values() ){
+                var values = item.toString();
+                for (var prop : objectRequest.getSelectedProperties()){
+
+
+                    int foundIndex = values.indexOf(prop.toString() + "=");
+                    String val = values.substring(foundIndex + prop.toString().length() + 1, values.indexOf(',', foundIndex));
+
+                    log.debug("Looking for property: " + prop + "  value: " + val + "\n");
+
+                    output.put(prop.toString() , val);
+                }
+
+                log.debug(item + "\n");
+                break;
+            }
+            output.put("id", "A0001");
+            for (var outputitem : output.keySet()){
+                log.debug("output map: " + outputitem + ":" + output.get(outputitem));
+            }
+
+        }, error -> {
+
+        });
+
+
+
+
+        return Mono.justOrEmpty(output);
+       // return emir;
     }
 
     @Override

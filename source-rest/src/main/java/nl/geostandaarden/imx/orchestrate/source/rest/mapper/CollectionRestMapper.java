@@ -1,6 +1,6 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
-import graphql.language.*;
+
 import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
@@ -25,36 +25,6 @@ public class CollectionRestMapper extends AbstractRestMapper<CollectionRequest> 
     return null;
   }
 
-  private ObjectField getFilterField(FilterExpression filterExpression) {
-    var filterOperator = filterExpression.getOperator();
-    var reverseFieldPaths = new ArrayList<>(filterExpression.getPath()
-      .getSegments());
-    Collections.reverse(reverseFieldPaths);
-    var value = filterExpression.getValue();
-
-    var objectField = ObjectField.newObjectField()
-      .name(mapToFilterOperator(filterOperator))
-      .value(ValueMapper.mapToValue(value))
-      .build();
-
-    return getFilterField(reverseFieldPaths, objectField);
-  }
-
-  private ObjectField getFilterField(List<String> reverseFieldPaths, ObjectField childObjectField) {
-    var fieldName = reverseFieldPaths.get(0);
-    var fieldValue = ObjectValue.newObjectValue()
-      .objectField(childObjectField)
-      .build();
-    var objectField = ObjectField.newObjectField()
-      .name(fieldName)
-      .value(fieldValue)
-      .build();
-
-    if (reverseFieldPaths.size() > 1) {
-      return getFilterField(reverseFieldPaths.subList(1, reverseFieldPaths.size()), objectField);
-    }
-    return objectField;
-  }
 
   private String mapToFilterOperator(FilterOperator filterOperator) {
     return switch (filterOperator.getType()) {

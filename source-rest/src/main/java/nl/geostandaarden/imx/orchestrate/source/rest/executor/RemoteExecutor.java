@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -27,7 +28,7 @@ public class RemoteExecutor implements ApiExecutor{
         var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
 
         return this.webClient.get()
-                //.accept(MediaType.APPLICATION_JSON)
+                .accept(MediaType.valueOf("application/hal+json"))
                 .retrieve()
                 .bodyToMono(mapTypeRef)
                 .map(RemoteExecutor::mapToResult);

@@ -1,18 +1,17 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
-import static org.springframework.util.StringUtils.uncapitalize;
-
-import graphql.ExecutionResult;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
+@Slf4j
 public class ResponseMapper {
 
     //Configuratie gegevens, worden geset de in RestSourceType klasse
@@ -22,7 +21,12 @@ public class ResponseMapper {
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..1 resultaten
     public Mono<Map<String, Object>> processFindOneResult(Mono<Map<String, Object>> executionResult) {
-        return executionResult.map(result -> Optional.ofNullable(result)
+//        var uitgepakt = executionResult;
+//        uitgepakt.subscribe(item -> log.debug(item.values().toString()), error -> {
+//
+//        });
+
+        return executionResult.map(result -> Optional.ofNullable((Map<String, Object>) result)
                         .orElse(Map.of()))
                 .map(ResponseMapper::unwrapRefs);
     }
@@ -79,5 +83,5 @@ public class ResponseMapper {
 //
 //                    acc.put(e.getKey(), value);
 //                }, HashMap::putAll);
-    }
+   }
 }

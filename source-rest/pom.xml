@@ -24,9 +24,19 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>nl.geostandaarden.imx.orchestrate</groupId>
-            <artifactId>orchestrate-source-graphql</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
+            <groupId>io.projectreactor.netty</groupId>
+            <artifactId>reactor-netty-http</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>6.0.13</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webflux</artifactId>
+            <version>6.0.13</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
