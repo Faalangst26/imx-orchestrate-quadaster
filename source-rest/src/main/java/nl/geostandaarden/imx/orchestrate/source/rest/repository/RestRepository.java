@@ -39,18 +39,7 @@ public class RestRepository implements DataRepository {
     @Override
     public Mono<Map<String, Object>> findOne(ObjectRequest objectRequest) {
         var rest = objectRestMapper.convert(objectRequest);
-
-        //TODO: Deze ramp weghalen en vervangen door iets goeds.
-        log.debug("findOne bereikt!");
-        Map<String, Object> output = new HashMap<String, Object>();
-        var emir = responseMapper.processFindOneResult(this.executor.execute(rest, objectRequest));
-
-
-
-
-        return emir;
-        //return Mono.justOrEmpty(output);
-       // return emir;
+        return responseMapper.processFindOneResult(this.executor.execute(rest, objectRequest));
     }
 
     @Override
