@@ -6,29 +6,29 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ExecuteTest {
     public ExecuteTest() {
     }
 
-//    @Test
-//    public void testExecute() {
-//        RemoteExecutor remoteExecutor = new RemoteExecutor(WebClient.builder().build());
-//        Map<String, String> inputMap = new HashMap();
-//        inputMap.put("code", "GM0014");
-//        inputMap.put("bestuurslaag", "gemeente");
-//
-//        HashMap<String, Object> expected = new HashMap<>();
-//        expected.put("gemeente", "GM0014");
-//
-//        Mono<Map<String, Object>> result = remoteExecutor.execute(inputMap);
-//
-//
-//        StepVerifier.create(result)
-//                .expectNext(expected)
-//                .expectComplete()
-//                .verify();
-//    }
+    @Test
+    public void testMapResult() {
+        RemoteExecutor remoteExecutor = new RemoteExecutor(WebClient.builder().build());
+        Set query = new HashSet<>();
+        query.add("id");
+        query.add("gemeente");
+        Map data = new HashMap<>();
+
+
+
+
+        StepVerifier.create(result)
+                .expectNext(expected)
+                .expectComplete()
+                .verify();
+    }
 }
 
