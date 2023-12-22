@@ -35,6 +35,10 @@ objectTypeMappings:
         geometry:
           pathMappings:
             path: geometry
+        oin:
+          pathMappings:
+            path: geometry
+
 
 
 
