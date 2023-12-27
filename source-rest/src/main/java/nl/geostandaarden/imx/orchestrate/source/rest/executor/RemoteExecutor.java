@@ -10,9 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
-
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class RemoteExecutor implements ApiExecutor{
@@ -32,10 +33,10 @@ public class RemoteExecutor implements ApiExecutor{
         var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
 
 
-
         this.objectRequest = objectRequest;
 
         return this.webClient.get()
+                .uri(createUri(input))
                 .accept(MediaType.valueOf("application/hal+json"))
                 .retrieve()
                 .bodyToMono(mapTypeRef)
@@ -43,7 +44,23 @@ public class RemoteExecutor implements ApiExecutor{
 
     }
 
+    private static String createUri(Map<String, Object> input) {
+
+            if(input.isEmpty())
+                return "";
+
+            //Haal het eerste item uit de map, je kunt immers maar 1 ding in het URI plakken om op te zoeken
+            Map.Entry<String, Object> entry = input.entrySet().iterator().next();
+            String key = entry.getKey();
+            var value = entry.getValue();
+            return ("/" + value.toString());
+
+    }
+
     private static Map<String, Object> mapToResult(Map<String, Object> body) {
+        if(body.size() > 2 ){
+            return body;
+        }
         Map<String, Object> output = new HashMap<String, Object>();
         for (var item : body.values() ){
             var values = item.toString();
@@ -61,8 +78,7 @@ public class RemoteExecutor implements ApiExecutor{
             log.debug(item + "\n");
             break;
         }
-        //TODO: AAHHHHHHHHHH
-        output.put("id", "A0001");
+
         for (var outputitem : output.keySet()){
             log.debug("output map: " + outputitem + ":" + output.get(outputitem));
         }
