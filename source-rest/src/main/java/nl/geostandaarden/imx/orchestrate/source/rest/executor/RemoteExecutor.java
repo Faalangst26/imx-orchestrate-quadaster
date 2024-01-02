@@ -38,13 +38,23 @@ public class RemoteExecutor implements ApiExecutor{
         this.objectRequest = objectRequest;
 
         return this.webClient.get()
+                .uri(createUri(input))
                 .accept(MediaType.valueOf("application/hal+json"))
                 .retrieve()
                 .bodyToMono(mapTypeRef)
                 .map(RemoteExecutor::mapToResult);
 
     }
+    private static String createUri(Map<String, Object> input) {
+        if(input.isEmpty())
+            return "";
 
+        //Haal het eerste item uit de map, je kunt immers maar 1 ding in het URI plakken om op te zoeken
+        Map.Entry<String, Object> entry = input.entrySet().iterator().next();
+        String key = entry.getKey();
+        var value = entry.getValue();
+        return ("/" + value.toString());
+    }
     private static Map<String, Object> mapToResult(Map<String, Object> body) {
         Map<String, Object> resultMap = new HashMap<>();
         var berne = body.toString();
@@ -104,29 +114,4 @@ public class RemoteExecutor implements ApiExecutor{
 }
 
 
-//    Map<String, Object> output = new HashMap<String, Object>();
-//        for (var item : body.values() ){
-//                var values = item.toString();
-//                var luc = objectRequest.getSelectedProperties();
-//                for (var prop : objectRequest.getSelectedProperties()){
-//
-//
-//                int foundIndex = values.indexOf(prop.toString() + "=");
-//                String val = values.substring(foundIndex + prop.toString().length() + 1, values.indexOf(',', foundIndex));
-//
-//                log.debug("Looking for property: " + prop + "  value: " + val + "\n");
-//
-//                output.put(prop.toString() , val);
-//                }
-//
-//                log.debug(item + "\n");
-//                break;
-//                }
-//                //TODO: AAHHHHHHHHHH
-//                output.put("id", "A0001");
-//                for (var outputitem : output.keySet()){
-//                log.debug("output map: " + outputitem + ":" + output.get(outputitem));
-//                }
-//
-//                return output;
 
