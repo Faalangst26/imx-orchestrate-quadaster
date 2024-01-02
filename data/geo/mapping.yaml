@@ -8,8 +8,10 @@ sourceModels:
     location: ../data/city/model.yaml
   land:
     location: ../data/land/model.yaml
-  border:
-    location: ../data/border/model.yaml
+  body:
+    location: ../data/body/model.yaml
+  area:
+    location: ../data/area/model.yaml
 
 sourceRelations:
   - sourceType: adr:Address
@@ -24,11 +26,14 @@ sourceRelations:
 
 objectTypeMappings:
   Publicbody:
-    - sourceRoot: border:Publicbody
+    - sourceRoot: body:Publicbody
       propertyMappings:
-        id:
+        code:
           pathMappings:
-            path: id
+            path: code
+        bestuurslaag:
+          pathMappings:
+            path: bestuurslaag
         type:
           pathMappings:
             path: type
@@ -42,6 +47,18 @@ objectTypeMappings:
           pathMappings:
             path: naam
 
+  Administrativearea:
+    - sourceRoot: area:Administrativearea
+      propertyMappings:
+        identificatie:
+          pathMappings:
+            path: identificatie
+        type:
+          pathMappings:
+            path: type
+        openbaarLichaam:
+          pathMappings:
+            path: openbaarLichaam
 
 
   Construction:
