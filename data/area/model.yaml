@@ -8,6 +8,9 @@ objectTypes:
       type:
         type: String
         cardinality: 1
+      geometrie:
+        type: Geometry
+        cardinality: 1
       openbaarLichaam:
         type: String
         cardinality: 1
