@@ -59,6 +59,9 @@ objectTypeMappings:
         geometrie:
           pathMappings:
             path: geometrie
+        code:
+          pathMappings:
+            path: code
 
 
   Construction:

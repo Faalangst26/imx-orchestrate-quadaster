@@ -11,6 +11,9 @@ objectTypes:
       geometrie:
         type: Geometry
         cardinality: 1
+      code:
+        type: String
+        cardinality: 1
       openbaarLichaam:
         type: String
         cardinality: 1
