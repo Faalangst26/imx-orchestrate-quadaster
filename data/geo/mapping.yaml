@@ -251,10 +251,10 @@ objectTypeMappings:
             path: TOOIURI
         KVKnummer:
           pathMappings:
-            path: KVK-nummer
+            path: KVKnummer
         btwnummer:
           pathMappings:
-            path: btw-nummer
+            path: btwnummer
         loonHeffingenNummer:
           pathMappings:
             path: loonHeffingenNummer
