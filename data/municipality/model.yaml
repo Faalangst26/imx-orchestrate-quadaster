@@ -1,7 +1,7 @@
 objectTypes:
   Municipality:
     attributes:
-      Officiële_naam:
+      OfficieleNaam:
         type: String
         identifier: true
         cardinality: 1
@@ -47,16 +47,16 @@ objectTypes:
       Fax:
         type: String
         cardinality: 1
-      e-mailAdressen:
+      eMailAdressen:
         type: String
         cardinality: 1
-      internetPagina's:
+      internetPaginas:
         type: String
         cardinality: 1
-      socialeMedia":
+      socialeMedia:
         type: String
         cardinality: 0..1
-      contactPagina's:
+      contactPaginas:
         type: String
         cardinality: 0..1
       beschrijvingContactgegevens:
@@ -65,10 +65,10 @@ objectTypes:
       relatieMetMinisterie:
         type: String
         cardinality: 0..1
-      oppervlakte(km2):
+      oppervlakte:
         type: Double
         cardinality: 1
-      waterOppervlakte(km2):
+      wateroppervlakte:
         type: Double
         cardinality: 0..1
       bevatPlaatsen:
@@ -83,7 +83,7 @@ objectTypes:
       totaalAantalZetels:
         type: Integer
         cardinality: 1
-      raad(Partij(aantal zetels)):
+      raad:
         type: String
         cardinality: 1
       beleidsTereinen:
@@ -101,10 +101,10 @@ objectTypes:
       TOOIURI:
         type: String
         cardinality: 1
-      KVK-nummer:
+      KVKnummer:
         type: String
         cardinality: 1
-      btw-nummer:
+      btwnummer:
         type: String
         cardinality: 0..1
       loonHeffingenNummer:
@@ -115,6 +115,7 @@ objectTypes:
         cardinality: 0..1
       organisatiecode:
         type: String
+        identifier: true
         cardinality: 1
       actieveBeheerderROO:
         type: String

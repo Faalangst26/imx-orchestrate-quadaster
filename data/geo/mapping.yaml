@@ -150,12 +150,120 @@ objectTypeMappings:
   Municipality:
     - sourceRoot: municipality:Municipality
       propertyMappings:
-        Officiële_naam:
+        OfficieleNaam:
           pathMappings:
-            path: Officiële_naam
+            path: OfficieleNaam
         alternatieveNaam:
           pathMappings:
             path: alternatieveNaam
         Afkorting:
           pathMappings:
             path: Afkorting
+        Type:
+          pathMappings:
+            path: Type
+        Subtype:
+          pathMappings:
+            path: Subtype
+        startDatum:
+          pathMappings:
+            path: startDatum
+        eindDatum:
+          pathMappings:
+            path: eindDatum
+        datumTerVerificatie:
+          pathMappings:
+            path: datumTerVerificatie
+        laatsteMutatie:
+          pathMappings:
+            path: laatsteMutatie
+        Classificaties:
+          pathMappings:
+            path: Classificaties
+        onderdeelVan:
+          pathMappings:
+            path: onderdeelVan
+        beschrijvingOfDoel:
+          pathMappings:
+            path: beschrijvingOfDoel
+        Adressen:
+          pathMappings:
+            path: Adressen
+        telefoonnummers:
+          pathMappings:
+            path: telefoonnummers
+        Fax:
+          pathMappings:
+            path: Fax
+        eMailAdressen:
+          pathMappings:
+            path: eMailAdressen
+        internetPaginas:
+          pathMappings:
+            path: internetPaginas
+        socialeMedia:
+          pathMappings:
+            path: socialeMedia
+        contactPaginas:
+          pathMappings:
+            path: contactPaginas
+        beschrijvingContactgegevens:
+          pathMappings:
+            path: beschrijvingContactgegevens
+        relatieMetMinisterie:
+          pathMappings:
+            path: relatieMetMinisterie
+        oppervlakte:
+          pathMappings:
+            path: oppervlakte
+        wateroppervlakte:
+          pathMappings:
+            path: wateroppervlakte
+        bevatPlaatsen:
+          pathMappings:
+            path: bevatPlaatsen
+        aantalInwoners:
+          pathMappings:
+            path: aantalInwoners
+        inwonersPerKm2:
+          pathMappings:
+            path: inwonersPerKm2
+        totaalAantalZetels:
+          pathMappings:
+            path: totaalAantalZetels
+        raad:
+          pathMappings:
+            path: raad
+        beleidsTereinen:
+          pathMappings:
+            path: beleidsTereinen
+        datumvanPublicerenBegroting:
+          pathMappings:
+            path: datumvanPublicerenBegroting
+        actieveAfwijkingenVanDeRegeling:
+          pathMappings:
+            path: actieveAfwijkingenVanDeRegeling
+        OWMSURI:
+          pathMappings:
+            path: OWMSURI
+        TOOIURI:
+          pathMappings:
+            path: TOOIURI
+        KVKnummer:
+          pathMappings:
+            path: KVK-nummer
+        btwnummer:
+          pathMappings:
+            path: btw-nummer
+        loonHeffingenNummer:
+          pathMappings:
+            path: loonHeffingenNummer
+        OIN:
+          pathMappings:
+            path: OIN
+        organisatiecode:
+          pathMappings:
+            path: organisatiecode
+        actieveBeheerderROO:
+          pathMappings:
+            path: actieveBeheerderROO
