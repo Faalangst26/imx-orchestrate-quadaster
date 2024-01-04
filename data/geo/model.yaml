@@ -100,120 +100,80 @@ objectTypes:
     attributes:
       OfficieleNaam:
         type: String
-        identifier: true
-        cardinality: 1
       alternatieveNaam:
         type: String
-        cardinality: 0..1
       Afkorting:
         type: String
-        cardinality: 0..1
       Type:
         type: String
-        cardinality: 1
       Subtype:
         type: String
-        cardinality: 0..1
       startDatum:
         type: String
-        cardinality: 0..1
       eindDatum:
         type: String
-        cardinality: 0..1
       datumTerVerificatie:
         type: String
-        cardinality: 1
       laatsteMutatie:
         type: String
-        cardinality: 1
       Classificaties:
         type: String
-        cardinality: 1
       onderdeelVan:
         type: String
-        cardinality: 0..1
       beschrijvingOfDoel:
         type: String
-        cardinality: 0..1
       Adressen:
         type: String
-        cardinality: 1
       telefoonnummers:
         type: String
-        cardinality: 1
       Fax:
         type: String
-        cardinality: 1
       eMailAdressen:
         type: String
-        cardinality: 1
       internetPaginas:
         type: String
-        cardinality: 1
       socialeMedia:
         type: String
-        cardinality: 0..1
       contactPaginas:
         type: String
-        cardinality: 0..1
       beschrijvingContactgegevens:
         type: String
-        cardinality: 0..1
       relatieMetMinisterie:
         type: String
-        cardinality: 0..1
       oppervlakte:
-        type: Double
-        cardinality: 1
+        type: String
       wateroppervlakte:
-        type: Double
-        cardinality: 0..1
+        type: String
       bevatPlaatsen:
         type: String
-        cardinality: 1
       aantalInwoners:
         type: Integer
-        cardinality: 1
       inwonersPerKm2:
         type: Integer
-        cardinality: 1
       totaalAantalZetels:
         type: Integer
-        cardinality: 1
       raad:
         type: String
-        cardinality: 1
       beleidsTereinen:
         type: String
-        cardinality: 0..1
       datumvanPublicerenBegroting:
         type: String
-        cardinality: 0..1
       actieveAfwijkingenVanDeRegeling:
         type: String
-        cardinality: 0..1
       OWMSURI:
         type: String
-        cardinality: 1
       TOOIURI:
         type: String
-        cardinality: 1
       KVKnummer:
         type: String
-        cardinality: 1
       btwnummer:
         type: String
-        cardinality: 0..1
       loonHeffingenNummer:
         type: String
-        cardinality: 0..1
       OIN:
         type: String
-        cardinality: 0..1
       organisatiecode:
         type: String
         identifier: true
-        cardinality: 1
       actieveBeheerderROO:
         type: String
-        cardinality: 1
