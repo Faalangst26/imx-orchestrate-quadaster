@@ -6,6 +6,7 @@ import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,7 +20,12 @@ public class BatchRestMapper extends AbstractRestMapper<BatchRequest> {
 
   public Map<String, Object> convert(BatchRequest request) {
 
-    return null;
+    Map<String, Object> convertedRequest = new HashMap<>();
+
+    convertedRequest.put("operationName", OPERATION_NAME);
+    convertedRequest.put("config", config);
+
+    return convertedRequest;
   }
 
 

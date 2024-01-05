@@ -1,9 +1,7 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
@@ -49,7 +47,18 @@ public class ResponseMapper {
 
     //Verkrijg een list met Maps<String, Object> vanuit een executionResult
     private List<Map<String, Object>> getCollectionResult(Map<String, Object> executionResult, String objectName) {
-        return null;
+        List<Map<String, Object>> collectionResult = new ArrayList<>();
+
+        // Assuming the executionResult contains a key corresponding to the objectName
+        // Adjust this logic based on the actual structure of your executionResult
+        Object objectData = executionResult.get(objectName);
+
+        // Check if objectData is a List of Maps
+        if (objectData instanceof List && !((List<?>) objectData).isEmpty() && ((List<?>) objectData).get(0) instanceof Map) {
+            collectionResult = (List<Map<String, Object>>) objectData;
+        }
+
+        return collectionResult;
 
     }
 
