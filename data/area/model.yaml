@@ -1,0 +1,15 @@
+objectTypes:
+  Administrativearea:
+    attributes:
+      identificatie:
+        type: String
+        identifier: true
+        cardinality: 1
+      type:
+        type: String
+        cardinality: 1
+      openbaarLichaam:
+        type: String
+        cardinality: 1
+
+

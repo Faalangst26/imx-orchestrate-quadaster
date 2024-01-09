@@ -8,8 +8,12 @@ sourceModels:
     location: ../data/city/model.yaml
   land:
     location: ../data/land/model.yaml
-  border:
-    location: ../data/border/model.yaml
+  body:
+    location: ../data/body/model.yaml
+  area:
+    location: ../data/area/model.yaml
+  municipality:
+    location: ../data/municipality/model.yaml
 
 sourceRelations:
   - sourceType: adr:Address
@@ -24,11 +28,14 @@ sourceRelations:
 
 objectTypeMappings:
   Publicbody:
-    - sourceRoot: border:Publicbody
+    - sourceRoot: body:Publicbody
       propertyMappings:
-        id:
+        code:
           pathMappings:
-            path: id
+            path: code
+        bestuurslaag:
+          pathMappings:
+            path: bestuurslaag
         type:
           pathMappings:
             path: type
@@ -42,6 +49,18 @@ objectTypeMappings:
           pathMappings:
             path: naam
 
+  Administrativearea:
+    - sourceRoot: area:Administrativearea
+      propertyMappings:
+        identificatie:
+          pathMappings:
+            path: identificatie
+        type:
+          pathMappings:
+            path: type
+        openbaarLichaam:
+          pathMappings:
+            path: openbaarLichaam
 
 
   Construction:
@@ -127,3 +146,124 @@ objectTypeMappings:
         hasAddress:
           pathMappings:
             path: hasAddress
+
+  Municipality:
+    - sourceRoot: municipality:Municipality
+      propertyMappings:
+        OfficieleNaam:
+          pathMappings:
+            path: OfficieleNaam
+        alternatieveNaam:
+          pathMappings:
+            path: alternatieveNaam
+        Afkorting:
+          pathMappings:
+            path: Afkorting
+        Type:
+          pathMappings:
+            path: Type
+        Subtype:
+          pathMappings:
+            path: Subtype
+        startDatum:
+          pathMappings:
+            path: startDatum
+        eindDatum:
+          pathMappings:
+            path: eindDatum
+        datumTerVerificatie:
+          pathMappings:
+            path: datumTerVerificatie
+        laatsteMutatie:
+          pathMappings:
+            path: laatsteMutatie
+        Classificaties:
+          pathMappings:
+            path: Classificaties
+        onderdeelVan:
+          pathMappings:
+            path: onderdeelVan
+        beschrijvingOfDoel:
+          pathMappings:
+            path: beschrijvingOfDoel
+        Adressen:
+          pathMappings:
+            path: Adressen
+        telefoonnummers:
+          pathMappings:
+            path: telefoonnummers
+        Fax:
+          pathMappings:
+            path: Fax
+        eMailAdressen:
+          pathMappings:
+            path: eMailAdressen
+        internetPaginas:
+          pathMappings:
+            path: internetPaginas
+        socialeMedia:
+          pathMappings:
+            path: socialeMedia
+        contactPaginas:
+          pathMappings:
+            path: contactPaginas
+        beschrijvingContactgegevens:
+          pathMappings:
+            path: beschrijvingContactgegevens
+        relatieMetMinisterie:
+          pathMappings:
+            path: relatieMetMinisterie
+        oppervlakte:
+          pathMappings:
+            path: oppervlakte
+        wateroppervlakte:
+          pathMappings:
+            path: wateroppervlakte
+        bevatPlaatsen:
+          pathMappings:
+            path: bevatPlaatsen
+        aantalInwoners:
+          pathMappings:
+            path: aantalInwoners
+        inwonersPerKm2:
+          pathMappings:
+            path: inwonersPerKm2
+        totaalAantalZetels:
+          pathMappings:
+            path: totaalAantalZetels
+        raad:
+          pathMappings:
+            path: raad
+        beleidsTereinen:
+          pathMappings:
+            path: beleidsTereinen
+        datumvanPublicerenBegroting:
+          pathMappings:
+            path: datumvanPublicerenBegroting
+        actieveAfwijkingenVanDeRegeling:
+          pathMappings:
+            path: actieveAfwijkingenVanDeRegeling
+        OWMSURI:
+          pathMappings:
+            path: OWMSURI
+        TOOIURI:
+          pathMappings:
+            path: TOOIURI
+        KVKnummer:
+          pathMappings:
+            path: KVKnummer
+        btwnummer:
+          pathMappings:
+            path: btwnummer
+        loonHeffingenNummer:
+          pathMappings:
+            path: loonHeffingenNummer
+        OIN:
+          pathMappings:
+            path: OIN
+        organisatiecode:
+          pathMappings:
+            path: organisatiecode
+        actieveBeheerderROO:
+          pathMappings:
+            path: actieveBeheerderROO

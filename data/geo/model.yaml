@@ -20,13 +20,15 @@ objectTypes:
 
   Publicbody:
     attributes:
-      id:
+      code:
         type: String
         identifier: true
         cardinality: 1
+      bestuurslaag:
+        type: String
+        cardinality: 1
       type:
         type: String
-        identifier: true
         cardinality: 0..1
       geometry:
         type: Geometry
@@ -38,6 +40,19 @@ objectTypes:
       naam:
         type: String
         identifier: true
+        cardinality: 1
+
+  Administrativearea:
+    attributes:
+      identificatie:
+        type: String
+        identifier: true
+        cardinality: 1
+      type:
+        type: String
+        cardinality: 1
+      openbaarLichaam:
+        type: String
         cardinality: 1
 
   Address:
@@ -80,3 +95,85 @@ objectTypes:
       geometry:
         type: Geometry
         cardinality: 1
+
+  Municipality:
+    attributes:
+      OfficieleNaam:
+        type: String
+      alternatieveNaam:
+        type: String
+      Afkorting:
+        type: String
+      Type:
+        type: String
+      Subtype:
+        type: String
+      startDatum:
+        type: String
+      eindDatum:
+        type: String
+      datumTerVerificatie:
+        type: String
+      laatsteMutatie:
+        type: String
+      Classificaties:
+        type: String
+      onderdeelVan:
+        type: String
+      beschrijvingOfDoel:
+        type: String
+      Adressen:
+        type: String
+      telefoonnummers:
+        type: String
+      Fax:
+        type: String
+      eMailAdressen:
+        type: String
+      internetPaginas:
+        type: String
+      socialeMedia:
+        type: String
+      contactPaginas:
+        type: String
+      beschrijvingContactgegevens:
+        type: String
+      relatieMetMinisterie:
+        type: String
+      oppervlakte:
+        type: String
+      wateroppervlakte:
+        type: String
+      bevatPlaatsen:
+        type: String
+      aantalInwoners:
+        type: Integer
+      inwonersPerKm2:
+        type: Integer
+      totaalAantalZetels:
+        type: Integer
+      raad:
+        type: String
+      beleidsTereinen:
+        type: String
+      datumvanPublicerenBegroting:
+        type: String
+      actieveAfwijkingenVanDeRegeling:
+        type: String
+      OWMSURI:
+        type: String
+      TOOIURI:
+        type: String
+      KVKnummer:
+        type: String
+      btwnummer:
+        type: String
+      loonHeffingenNummer:
+        type: String
+      OIN:
+        type: String
+      organisatiecode:
+        type: String
+        identifier: true
+      actieveBeheerderROO:
+        type: String
