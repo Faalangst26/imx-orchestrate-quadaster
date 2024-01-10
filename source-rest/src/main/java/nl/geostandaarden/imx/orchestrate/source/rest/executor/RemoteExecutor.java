@@ -4,16 +4,15 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.AbstractDataRequest;
-import nl.geostandaarden.imx.orchestrate.engine.exchange.SelectedProperty;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
@@ -30,7 +29,7 @@ public class RemoteExecutor implements ApiExecutor {
     }
 
     @Override
-    public Mono<Map<String, Object>> execute(Map<String, Object> input, AbstractDataRequest objectRequest) {
+    public Mono<AbstractResult> execute(Map<String, Object> input, AbstractDataRequest objectRequest) {
         var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {
         };
 
@@ -58,58 +57,7 @@ public class RemoteExecutor implements ApiExecutor {
     }
 
 
-    private static Map<String, Object> mapToResult(Map<String, Object> body) {
-        Map<String, Object> resultMap = new HashMap<>();
-        for (SelectedProperty key : objectRequest.getSelectedProperties()) {
-            if (containsKeyRecursive(body, key.toString())) {
-                resultMap.put(key.toString(), getValueRecursive(body, key.toString()));
-            }
-        }
-        return resultMap;
-    }
-    private static boolean containsKeyRecursive(Map<String, Object> map, String key) {
-        if (map.containsKey(key)) {
-            return true;
-        }
-
-        for (Object value : map.values()) {
-            if (value instanceof Map && containsKeyRecursive((Map<String, Object>) value, key)) {
-                return true;
-            } else if (value instanceof List) {
-                for (Object listItem : (List<?>) value) {
-                    if (listItem instanceof Map && containsKeyRecursive((Map<String, Object>) listItem, key)) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private static Object getValueRecursive(Map<String, Object> map, String key) {
-        if (map.containsKey(key)) {
-            return map.get(key);
-        }
-
-        for (Object value : map.values()) {
-            if (value instanceof Map) {
-                Object result = getValueRecursive((Map<String, Object>) value, key);
-                if (result != null) {
-                    return result;
-                }
-            } else if (value instanceof List) {
-                for (Object listItem : (List<?>) value) {
-                    if (listItem instanceof Map) {
-                        Object result = getValueRecursive((Map<String, Object>) listItem, key);
-                        if (result != null) {
-                            return result;
-                        }
-                    }
-                }
-            }
-        }
-
+    private static AbstractResult mapToResult(Map<String, Object> body) {
         return null;
     }
 }

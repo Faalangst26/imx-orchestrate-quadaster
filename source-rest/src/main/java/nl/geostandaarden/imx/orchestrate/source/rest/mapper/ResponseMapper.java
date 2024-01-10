@@ -2,9 +2,14 @@ package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
 import java.util.*;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.BatchResult;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.CollectionResult;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.ObjectResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -18,49 +23,33 @@ public class ResponseMapper {
 
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..1 resultaten
-    public Mono<Map<String, Object>> processFindOneResult(Mono<Map<String, Object>> executionResult) {
-//        var uitgepakt = executionResult;
-//        uitgepakt.subscribe(item -> log.debug(item.values().toString()), error -> {
-//
-//        });
-
-        return executionResult.map(result -> Optional.ofNullable((Map<String, Object>) result)
-                        .orElse(Map.of()))
-                .map(ResponseMapper::unwrapRefs);
+    public Mono<Map<String, Object>> processFindOneResult(Mono<AbstractResult> executionResult) {
+        return null;
     }
 
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..N resultaten
-    public Flux<Map<String, Object>> processFindResult(Mono<Map<String, Object>> executionResult, String objectName) {
-        return executionResult.map(e -> getCollectionResult(e, objectName))
-                .flatMapMany(Flux::fromIterable)
-                .map(ResponseMapper::unwrapRefs);
-
+    public Flux<Map<String, Object>> processFindResult(Mono<AbstractResult> executionResult, String objectName) {
+        return null;
     }
 
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..N resultaten
-    public Flux<Map<String, Object>> processBatchResult(Mono<Map<String, Object>> executionResult, String objectName) {
+    public Flux<Map<String, Object>> processBatchResult(Mono<AbstractResult> executionResult, String objectName) {
         return null;
 
     }
 
-    //Verkrijg een list met Maps<String, Object> vanuit een executionResult
-    private List<Map<String, Object>> getCollectionResult(Map<String, Object> executionResult, String objectName) {
-        List<Map<String, Object>> collectionResult = new ArrayList<>();
+    //Verkrijg een list met linkedhashmap<string, objectnode> vanuit een executionResult
+    private CollectionResult getCollectionResult(AbstractResult<List<LinkedHashMap<String, ObjectNode>>> executionResult, String objectName) {
+        List<LinkedHashMap<String, ObjectNode>> collectionResult = new ArrayList<>();
 
-        // Assuming the executionResult contains a key corresponding to the objectName
-        // Adjust this logic based on the actual structure of your executionResult
-        Object objectData = executionResult.get(objectName);
-
-        // Check if objectData is a List of Maps
-        if (objectData instanceof List && !((List<?>) objectData).isEmpty() && ((List<?>) objectData).get(0) instanceof Map) {
-            collectionResult = (List<Map<String, Object>>) objectData;
+        if (executionResult != null && executionResult.getData() != null) {
+            collectionResult.addAll(executionResult.getData());
         }
-
-        return collectionResult;
-
+        return new CollectionResult(collectionResult);
     }
+
 
     //Verkrijg een lijst met Maps<String, Object> vanuit een executionResult
     private List<Map<String, Object>> getBatchResult(Map<String, Object> executionResult, String objectName) {
@@ -93,4 +82,8 @@ public class ResponseMapper {
 //                    acc.put(e.getKey(), value);
 //                }, HashMap::putAll);
    }
+
+    private static Map<String, Object> unwrapColl(Map<String, Object> item){
+        return null;
+    }
 }

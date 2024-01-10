@@ -1,7 +1,6 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.repository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
@@ -17,9 +16,7 @@ import nl.geostandaarden.imx.orchestrate.source.rest.mapper.ResponseMapper;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
 import java.util.Map;
-
 
 
 @RequiredArgsConstructor
