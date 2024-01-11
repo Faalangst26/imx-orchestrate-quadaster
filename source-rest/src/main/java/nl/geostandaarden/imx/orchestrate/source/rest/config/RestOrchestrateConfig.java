@@ -1,4 +1,4 @@
-package nl.geostandaarden.imx.orchestrate.souce.rest.config;
+package nl.geostandaarden.imx.orchestrate.source.rest.config;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +9,8 @@ public class RestOrchestrateConfig {
     private char[] authToken;
 
     private String baseUrl;
+
+    private String apiKey;
 
     @Builder.Default
     private String collectionSuffix = "Collection";

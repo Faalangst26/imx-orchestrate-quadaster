@@ -10,6 +10,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
+
+import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
@@ -18,6 +20,7 @@ import nl.geostandaarden.imx.orchestrate.model.filters.FilterExpression;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 class FileRepository implements DataRepository {
 
   private final Map<String, Map<Map<String, Object>, ObjectNode>> objectMap = new LinkedHashMap<>();
@@ -29,7 +32,16 @@ class FileRepository implements DataRepository {
         .map(objectNode -> getObjectProperties(objectNode, objectRequest.getSelectedProperties()))
         .orElse(null);
 
-    return Mono.justOrEmpty(objectProperties);
+
+    var uitgepakt = Mono.justOrEmpty(objectProperties);uitgepakt.subscribe(items -> {
+      for (var item : items.keySet() ){
+        log.debug("output map: " + item + ":" + items.get(item));
+      }
+
+    }, error -> {
+
+    });
+    return uitgepakt;
   }
 
   @Override
