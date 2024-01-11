@@ -39,9 +39,6 @@ objectTypeMappings:
         type:
           pathMappings:
             path: type
-        geometry:
-          pathMappings:
-            path: geometry
         oin:
           pathMappings:
             path: oin
@@ -61,6 +58,12 @@ objectTypeMappings:
         openbaarLichaam:
           pathMappings:
             path: openbaarLichaam
+        geometrie:
+          pathMappings:
+            path: geometrie
+        code:
+          pathMappings:
+            path: code
 
 
   Construction:
