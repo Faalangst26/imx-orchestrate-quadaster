@@ -22,7 +22,4 @@ public class BatchRestMapper extends AbstractRestMapper<BatchRequest> {
     return null;
   }
 
-
-
-
 }

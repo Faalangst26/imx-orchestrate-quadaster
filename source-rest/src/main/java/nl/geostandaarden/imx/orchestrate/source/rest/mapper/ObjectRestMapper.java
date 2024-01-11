@@ -4,8 +4,6 @@ package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
-
-
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +20,5 @@ public class ObjectRestMapper extends AbstractRestMapper<ObjectRequest> {
     return request.getObjectKey();
 
   }
-
 
 }

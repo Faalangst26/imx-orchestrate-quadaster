@@ -1,14 +1,10 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
-
-
 import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
 import nl.geostandaarden.imx.orchestrate.model.filters.FilterExpression;
 import nl.geostandaarden.imx.orchestrate.model.filters.FilterOperator;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +20,6 @@ public class CollectionRestMapper extends AbstractRestMapper<CollectionRequest> 
   public Map<String, Object> convert(CollectionRequest request) {
     return null;
   }
-
 
   private String mapToFilterOperator(FilterOperator filterOperator) {
     return switch (filterOperator.getType()) {
