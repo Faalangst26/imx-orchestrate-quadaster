@@ -1,16 +1,9 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.executor;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.rpc.Help;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.AbstractDataRequest;
-import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.BatchResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.CollectionResult;
@@ -23,17 +16,13 @@ import reactor.core.publisher.Mono;
 
 import java.util.*;
 
-
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class RemoteExecutor implements ApiExecutor {
-    private static final String DATA = "data";
 
     private final WebClient webClient;
 
-    private static AbstractDataRequest objectRequest;
-
-    private static AbstractResult requesType;
+    private static AbstractResult requestType;
 
     //Maak een nieuwe RemoteExecutor, en een nieuwe configuratie in de RestWebClient
     public static RemoteExecutor create(RestOrchestrateConfig config) {
@@ -42,11 +31,8 @@ public class RemoteExecutor implements ApiExecutor {
 
     @Override
     public Mono<AbstractResult> execute(Map<String, Object> input, AbstractDataRequest objectRequest) {
-    requesType=getRequestType(objectRequest);
-        var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {
-        };
-
-        this.objectRequest = objectRequest;
+    requestType = getRequestType(objectRequest);
+        var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
 
         return this.webClient.get()
                 .uri(createUri(input))
@@ -62,43 +48,44 @@ public class RemoteExecutor implements ApiExecutor {
             return null;
         }
 
-        switch (objectRequest.getClass().getName()) {
-            case "nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest":
-                return new CollectionResult(null);
-
-            case "nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest":
-                return new ObjectResult(null);
-
-            case "nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest":
-                return new BatchResult(null);
-
-
-            default:
-                return null;
-        }
+        return switch (objectRequest.getClass().getName()) {
+            case "nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest" -> new CollectionResult(null);
+            case "nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest" -> new ObjectResult(null);
+            case "nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest" -> new BatchResult(null);
+            default -> null;
+        };
     }
 
     private static String createUri(Map<String, Object> input) {
-        if (input.isEmpty())
+        if (input == null)
             return "";
-        return "";
+
+        if (input.size() != 1)
+            return "";
+
         //Haal het eerste item uit de map, je kunt immers maar 1 ding in het URI plakken om op te zoeken
-//        Map.Entry<String, Object> entry = input.entrySet().iterator().next();
-//        String key = entry.getKey();
-//        var value = entry.getValue();
-//        System.out.println("/" + value.toString());
-//        return ("/" + value.toString());
+        Map.Entry<String, Object> entry = input.entrySet().iterator().next();
+        var value = entry.getValue();
+        return ("/" + value.toString());
     }
 
 //ArrayList<LinkedHashMap<String, Object>>
     private static AbstractResult mapToResult(Map<String, Object> body) {
         AbstractResult result;
         ArrayList<LinkedHashMap<String, Object>> resultlist = new ArrayList<>();
-        if (requesType instanceof CollectionResult) {
+        //Als de return body meer als 2 items heeft (meer als _embedded  en _links) dan is het een enkel resultaat uit een zoek query
+        if(body.size() > 2 ){
+            resultlist.add((LinkedHashMap<String, Object>) body);
+            result = new ObjectResult(null);
+            result.data = resultlist;
+            return result;
+        }
+
+        if (requestType instanceof CollectionResult) {
             result = new CollectionResult(null);
-        } else if (requesType instanceof BatchResult) {
+        } else if (requestType instanceof BatchResult) {
             result = new BatchResult(null);
-        } else if (requesType instanceof ObjectResult) {
+        } else if (requestType instanceof ObjectResult) {
             result = new ObjectResult(null);
         } else {
             result = null;

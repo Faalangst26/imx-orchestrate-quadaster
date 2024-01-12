@@ -32,17 +32,7 @@ class FileRepository implements DataRepository {
         .map(objectNode -> getObjectProperties(objectNode, objectRequest.getSelectedProperties()))
         .orElse(null);
 
-
-    var uitgepakt = Mono.justOrEmpty(objectProperties);
-    uitgepakt.subscribe(items -> {
-      for (var item : items.keySet() ){
-        log.debug("output map: " + item + ":" + items.get(item));
-      }
-
-    }, error -> {
-
-    });
-    return uitgepakt;
+    return Mono.justOrEmpty(objectProperties);
   }
 
   @Override
