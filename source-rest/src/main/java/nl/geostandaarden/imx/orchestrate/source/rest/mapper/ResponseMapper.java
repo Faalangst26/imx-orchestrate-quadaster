@@ -27,24 +27,11 @@ public class ResponseMapper {
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..1 resultaten
     public Mono<Map<String, Object>> processFindOneResult(Mono<AbstractResult> executionResult) {
-        return executionResult.map(result -> {
-            var unwrappedResult = unwrapRefs(beanToMap(result));
-            var processedResult = new HashMap<String, Object>();
-
-            unwrappedResult.forEach((key, value) -> {
-                // Perform any additional processing if needed
-
-                processedResult.put(key, value);
-            });
-
-            return processedResult;
-        });
-
-    }
-    private Map<String, Object> beanToMap(AbstractResult result) {
-        Map<String, Object> map = new HashMap<>();
-        BeanUtils.copyProperties(result, map);
-        return map;
+        return executionResult
+                .flatMap(result -> {
+                    List<Map<String, Object>> dataList = result != null ? (ArrayList<Map<String, Object>>) result.getData() : new ArrayList<>();
+                    return Flux.fromIterable(dataList).next(); // Gebruik .next() om een Mono te maken
+                });
     }
     private Iterable<AbstractResult> getBatchItems(AbstractResult result, String objectName) {
         return Collections.emptyList();
@@ -70,25 +57,11 @@ public class ResponseMapper {
     //Verwerk execution result, unwrap deze en return een nieuwe Map<String, Object>.
     //0..N resultaten
     public Flux<Map<String, Object>> processBatchResult(Mono<AbstractResult> executionResult, String objectName) {
-        return executionResult.flatMapMany(result -> {
-            // Assuming result is a collection or iterable of items
-            Iterable<AbstractResult> items = getBatchItems(result, objectName);
-
-            return Flux.fromIterable(items)
-                    .map(item -> {
-                        Map<String, Object> unwrappedResult = unwrapRefs(beanToMap(item));
-                        Map<String, Object> processedResult = new HashMap<>();
-
-                        unwrappedResult.forEach((key, value) -> {
-                            // Perform any additional processing if needed
-                            // For example, you may want to convert certain types or perform other transformations
-                            // processedResult.put(key, transformedValue);
-                            processedResult.put(key, value);
-                        });
-
-                        return processedResult;
-                    });
-        });
+        return executionResult
+                .flatMapMany(result -> {
+                    List<Map<String, Object>> dataList = result != null ? (ArrayList<Map<String, Object>>) result.getData() : new ArrayList<>();
+                    return Flux.fromIterable(dataList);
+                });
 
     }
 
