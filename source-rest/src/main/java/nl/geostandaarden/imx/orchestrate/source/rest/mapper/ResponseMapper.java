@@ -11,6 +11,7 @@ import nl.geostandaarden.imx.orchestrate.source.rest.Result.CollectionResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.ObjectResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
+import org.reactivestreams.Publisher;
 import org.springframework.beans.BeanUtils;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -55,8 +56,10 @@ public class ResponseMapper {
     //0..N resultaten
     public Flux<Map<String, Object>> processFindResult(Mono<AbstractResult> executionResult, String objectName) {
         return executionResult
-                .flatMapMany(result -> Flux.fromIterable((Iterable<? extends Object>) result.getData()))
-                .map(dataItem -> convertToMap((ObjectNode) dataItem));
+                .flatMapMany(result -> {
+                    List<Map<String, Object>> dataList = result != null ? (ArrayList<Map<String, Object>>) result.getData() : new ArrayList<>();
+                    return Flux.fromIterable(dataList);
+                });
 
     }
     private Map<String, Object> convertToMap(ObjectNode objectNode) {
@@ -88,16 +91,6 @@ public class ResponseMapper {
         });
 
     }
-    //Verkrijg een list met linkedhashmap<string, objectnode> vanuit een executionResult
-    private CollectionResult getCollectionResult(AbstractResult<List<LinkedHashMap<String, Object>>> executionResult, String objectName) {
-        List<LinkedHashMap<String, Object>> collectionResult = new ArrayList<>();
-
-        if (executionResult != null && executionResult.getData() != null) {
-            collectionResult.addAll(executionResult.getData());
-        }
-        return new CollectionResult(collectionResult);
-    }
-
 
     //Verkrijg een lijst met Maps<String, Object> vanuit een executionResult
     private List<Map<String, Object>> getBatchResult(Map<String, Object> executionResult, String objectName) {

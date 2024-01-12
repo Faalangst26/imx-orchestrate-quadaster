@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.rpc.Help;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.AbstractDataRequest;
+import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.BatchResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.CollectionResult;
@@ -31,6 +33,8 @@ public class RemoteExecutor implements ApiExecutor {
 
     private static AbstractDataRequest objectRequest;
 
+    private static AbstractResult requesType;
+
     //Maak een nieuwe RemoteExecutor, en een nieuwe configuratie in de RestWebClient
     public static RemoteExecutor create(RestOrchestrateConfig config) {
         return new RemoteExecutor(RestWebClient.create(config));
@@ -38,6 +42,7 @@ public class RemoteExecutor implements ApiExecutor {
 
     @Override
     public Mono<AbstractResult> execute(Map<String, Object> input, AbstractDataRequest objectRequest) {
+    requesType=getRequestType(objectRequest);
         var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {
         };
 
@@ -52,6 +57,27 @@ public class RemoteExecutor implements ApiExecutor {
 
     }
 
+    private static AbstractResult getRequestType(AbstractDataRequest objectRequest) {
+        if (objectRequest == null) {
+            return null;
+        }
+
+        switch (objectRequest.getClass().getName()) {
+            case "nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest":
+                return new CollectionResult(null);
+
+            case "nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest":
+                return new ObjectResult(null);
+
+            case "nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest":
+                return new BatchResult(null);
+
+
+            default:
+                return null;
+        }
+    }
+
     private static String createUri(Map<String, Object> input) {
         if (input.isEmpty())
             return "";
@@ -64,56 +90,47 @@ public class RemoteExecutor implements ApiExecutor {
 //        return ("/" + value.toString());
     }
 
-
+//ArrayList<LinkedHashMap<String, Object>>
     private static AbstractResult mapToResult(Map<String, Object> body) {
+        AbstractResult result;
+        ArrayList<LinkedHashMap<String, Object>> resultlist = new ArrayList<>();
+        if (requesType instanceof CollectionResult) {
+            result = new CollectionResult(null);
+        } else if (requesType instanceof BatchResult) {
+            result = new BatchResult(null);
+        } else if (requesType instanceof ObjectResult) {
+            result = new ObjectResult(null);
+        } else {
+            result = null;
+        }
         if (body.containsKey("_embedded")) {
             Object embeddedObject = body.get("_embedded");
 
-            // Assuming the embeddedObject is a LinkedHashMap
             if (embeddedObject instanceof LinkedHashMap) {
-                LinkedHashMap<?, ?> embeddedMap = (LinkedHashMap<?, ?>) embeddedObject;
+                LinkedHashMap<String, Object> embeddedMap = (LinkedHashMap<String, Object>) embeddedObject;
 
-                var data = new ArrayList<LinkedHashMap<String, Object>>();
+                if (embeddedMap.containsKey("bestuurlijkeGebieden") || embeddedMap.containsKey("openbareLichamen")) {
+                    String keyToCheck = embeddedMap.containsKey("bestuurlijkeGebieden") ? "bestuurlijkeGebieden" : "openbareLichamen";
+                    Object bodyListObject = embeddedMap.get(keyToCheck);
 
-                // Iterate over the entries of the embeddedMap
-                for (Map.Entry<?, ?> entry : embeddedMap.entrySet()) {
-                    // Assuming each entry value is a List
-                    if (entry.getValue() instanceof List) {
-                        @SuppressWarnings("unchecked")
-                        List<Map<String, Object>> itemList = (List<Map<String, Object>>) entry.getValue();
+                    if (bodyListObject instanceof ArrayList) {
+                        ArrayList<?> bodyList = (ArrayList<?>) bodyListObject;
 
-                        // Convert each item in the list to LinkedHashMap<String, ObjectNode>
-                        for (Map<String, Object> itemMap : itemList) {
-                            LinkedHashMap<String, Object> itemData = convertToItemData(itemMap);
-                            data.add(itemData);
+                        // Assuming each element in the body list is a linked hash map
+                        for (Object item : bodyList) {
+                            if (item instanceof LinkedHashMap) {
+                                resultlist.add((LinkedHashMap<String, Object>) item);
+
+
+                            }
                         }
                     }
                 }
-                // Create CollectionResult with the populated data
-                AbstractResult result = new CollectionResult(data);
-                return result;
             }
         }
 
-        return null;
-    }
-
-    private static LinkedHashMap<String, Object> convertToItemData(Map<String, Object> itemMap) {
-        LinkedHashMap<String, Object> itemData = new LinkedHashMap<>();
-
-        // Use Jackson's ObjectMapper to create ObjectNode
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        // Iterate over the entries of the itemMap
-        for (Map.Entry<String, Object> entry : itemMap.entrySet()) {
-            // Convert each entry value to ObjectNode
-            JsonNode jsonNode = objectMapper.valueToTree(entry.getValue());
-            if (jsonNode instanceof Object) {
-                itemData.put(entry.getKey(), (Object) jsonNode);
-            }
-        }
-
-        return itemData;
+        result.data = resultlist;
+        return result;
     }
 }
 
