@@ -18,6 +18,10 @@ public abstract class AbstractResult<T>{
         this.queryType = queryType;
     }
 
+    public AbstractResult(String queryType) {
+        this.queryType = queryType;
+    }
+
     public <T> T getData() {
         if(data != null) return (T) data;
         return null;

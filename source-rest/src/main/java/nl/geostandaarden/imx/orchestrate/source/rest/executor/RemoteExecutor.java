@@ -1,10 +1,18 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.executor;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.AbstractDataRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.BatchResult;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.CollectionResult;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.ObjectResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
@@ -45,7 +53,7 @@ public class RemoteExecutor implements ApiExecutor {
     }
 
     private static String createUri(Map<String, Object> input) {
-        if(input.isEmpty())
+        if (input.isEmpty())
             return "";
         return "";
         //Haal het eerste item uit de map, je kunt immers maar 1 ding in het URI plakken om op te zoeken
@@ -58,7 +66,55 @@ public class RemoteExecutor implements ApiExecutor {
 
 
     private static AbstractResult mapToResult(Map<String, Object> body) {
+        if (body.containsKey("_embedded")) {
+            Object embeddedObject = body.get("_embedded");
+
+            // Assuming the embeddedObject is a LinkedHashMap
+            if (embeddedObject instanceof LinkedHashMap) {
+                LinkedHashMap<?, ?> embeddedMap = (LinkedHashMap<?, ?>) embeddedObject;
+
+                var data = new ArrayList<LinkedHashMap<String, ObjectNode>>();
+
+                // Iterate over the entries of the embeddedMap
+                for (Map.Entry<?, ?> entry : embeddedMap.entrySet()) {
+                    // Assuming each entry value is a List
+                    if (entry.getValue() instanceof List) {
+                        @SuppressWarnings("unchecked")
+                        List<Map<String, Object>> itemList = (List<Map<String, Object>>) entry.getValue();
+
+                        // Convert each item in the list to LinkedHashMap<String, ObjectNode>
+                        for (Map<String, Object> itemMap : itemList) {
+                            LinkedHashMap<String, ObjectNode> itemData = convertToItemData(itemMap);
+                            data.add(itemData);
+                        }
+                    }
+                }
+
+                // Create CollectionResult with the populated data
+                AbstractResult result = new CollectionResult(data);
+                return result;
+            }
+        }
+
         return null;
+    }
+
+    private static LinkedHashMap<String, ObjectNode> convertToItemData(Map<String, Object> itemMap) {
+        LinkedHashMap<String, ObjectNode> itemData = new LinkedHashMap<>();
+
+        // Use Jackson's ObjectMapper to create ObjectNode
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        // Iterate over the entries of the itemMap
+        for (Map.Entry<String, Object> entry : itemMap.entrySet()) {
+            // Convert each entry value to ObjectNode
+            JsonNode jsonNode = objectMapper.valueToTree(entry.getValue());
+            if (jsonNode instanceof ObjectNode) {
+                itemData.put(entry.getKey(), (ObjectNode) jsonNode);
+            }
+        }
+
+        return itemData;
     }
 }
 

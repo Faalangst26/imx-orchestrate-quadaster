@@ -16,9 +16,20 @@ public class CollectionRestMapper extends AbstractRestMapper<CollectionRequest> 
 
   private final RestOrchestrateConfig config;
 
+  //convert Collectionrequest to Map<String, Object>
   @Override
   public Map<String, Object> convert(CollectionRequest request) {
     Map<String, Object> data = new HashMap<>();
+
+    // Add properties from AbstractDataRequest
+    data.put("ObjectType", request.getObjectType());
+    data.put("SelectedProperties", request.getSelectedProperties());
+
+    // Add filter if present
+    if (request.getFilter() != null) {
+      data.put("Filter", request.getFilter());
+    }
+
     return data;
   }
 
