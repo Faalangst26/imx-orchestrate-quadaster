@@ -47,6 +47,11 @@
         </dependency>
         <dependency>
             <groupId>nl.geostandaarden.imx.orchestrate</groupId>
+            <artifactId>orchestrate-source-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>nl.geostandaarden.imx.orchestrate</groupId>
             <artifactId>orchestrate-source-graphql</artifactId>
             <version>${project.version}</version>
         </dependency>

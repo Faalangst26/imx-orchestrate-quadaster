@@ -60,6 +60,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>nl.geostandaarden.imx.orchestrate</groupId>
+            <artifactId>orchestrate-source-rest</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
@@ -89,12 +94,6 @@
             <groupId>org.springframework.graphql</groupId>
             <artifactId>spring-graphql-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>nl.geostandaarden.imx.orchestrate</groupId>
-            <artifactId>orchestrate-source-rest</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>
