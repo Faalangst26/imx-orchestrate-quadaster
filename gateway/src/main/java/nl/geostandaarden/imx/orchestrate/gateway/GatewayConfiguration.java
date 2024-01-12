@@ -31,7 +31,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.graphql.execution.DefaultExecutionGraphQlService;
 import org.springframework.graphql.execution.GraphQlSource;
 
-
 @Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(GraphQlProperties.class)
@@ -105,7 +104,6 @@ public class GatewayConfiguration {
         .map(s -> s.create(sourceModels.get(dataset), source.getOptions()))
         .orElseThrow(() -> new GatewayException(String.format("Source type '%s' not found.", source.getType())));
   }
-
 
   @Bean
   public DefaultExecutionGraphQlService graphQlService(GraphQlSource graphQlSource) {

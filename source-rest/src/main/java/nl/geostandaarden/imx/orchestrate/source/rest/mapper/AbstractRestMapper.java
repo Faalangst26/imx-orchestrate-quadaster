@@ -9,5 +9,4 @@ abstract class AbstractRestMapper<T extends DataRequest> {
 
   abstract Map<String, Object> convert(T request);
 
-
 }
