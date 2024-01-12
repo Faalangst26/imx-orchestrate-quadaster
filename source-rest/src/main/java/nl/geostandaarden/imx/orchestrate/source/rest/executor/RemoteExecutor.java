@@ -73,7 +73,7 @@ public class RemoteExecutor implements ApiExecutor {
             if (embeddedObject instanceof LinkedHashMap) {
                 LinkedHashMap<?, ?> embeddedMap = (LinkedHashMap<?, ?>) embeddedObject;
 
-                var data = new ArrayList<LinkedHashMap<String, ObjectNode>>();
+                var data = new ArrayList<LinkedHashMap<String, Object>>();
 
                 // Iterate over the entries of the embeddedMap
                 for (Map.Entry<?, ?> entry : embeddedMap.entrySet()) {
@@ -84,12 +84,11 @@ public class RemoteExecutor implements ApiExecutor {
 
                         // Convert each item in the list to LinkedHashMap<String, ObjectNode>
                         for (Map<String, Object> itemMap : itemList) {
-                            LinkedHashMap<String, ObjectNode> itemData = convertToItemData(itemMap);
+                            LinkedHashMap<String, Object> itemData = convertToItemData(itemMap);
                             data.add(itemData);
                         }
                     }
                 }
-
                 // Create CollectionResult with the populated data
                 AbstractResult result = new CollectionResult(data);
                 return result;
@@ -99,8 +98,8 @@ public class RemoteExecutor implements ApiExecutor {
         return null;
     }
 
-    private static LinkedHashMap<String, ObjectNode> convertToItemData(Map<String, Object> itemMap) {
-        LinkedHashMap<String, ObjectNode> itemData = new LinkedHashMap<>();
+    private static LinkedHashMap<String, Object> convertToItemData(Map<String, Object> itemMap) {
+        LinkedHashMap<String, Object> itemData = new LinkedHashMap<>();
 
         // Use Jackson's ObjectMapper to create ObjectNode
         ObjectMapper objectMapper = new ObjectMapper();
@@ -109,8 +108,8 @@ public class RemoteExecutor implements ApiExecutor {
         for (Map.Entry<String, Object> entry : itemMap.entrySet()) {
             // Convert each entry value to ObjectNode
             JsonNode jsonNode = objectMapper.valueToTree(entry.getValue());
-            if (jsonNode instanceof ObjectNode) {
-                itemData.put(entry.getKey(), (ObjectNode) jsonNode);
+            if (jsonNode instanceof Object) {
+                itemData.put(entry.getKey(), (Object) jsonNode);
             }
         }
 

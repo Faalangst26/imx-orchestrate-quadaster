@@ -89,8 +89,8 @@ public class ResponseMapper {
 
     }
     //Verkrijg een list met linkedhashmap<string, objectnode> vanuit een executionResult
-    private CollectionResult getCollectionResult(AbstractResult<List<LinkedHashMap<String, ObjectNode>>> executionResult, String objectName) {
-        List<LinkedHashMap<String, ObjectNode>> collectionResult = new ArrayList<>();
+    private CollectionResult getCollectionResult(AbstractResult<List<LinkedHashMap<String, Object>>> executionResult, String objectName) {
+        List<LinkedHashMap<String, Object>> collectionResult = new ArrayList<>();
 
         if (executionResult != null && executionResult.getData() != null) {
             collectionResult.addAll(executionResult.getData());
