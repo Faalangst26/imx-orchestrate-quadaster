@@ -62,7 +62,7 @@ public class RemoteExecutor implements ApiExecutor{
                 resultMap.put(key.toString(), getValueRecursive(body, key.toString()));
             }
         }
-        var emir =resultMap;
+        var emir = resultMap;
         return resultMap;
     }
     private static boolean containsKeyRecursive(Map<String, Object> map, String key) {
