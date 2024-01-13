@@ -37,7 +37,6 @@ public class RestSourceType implements SourceType {
     return new RestSource(config);
   }
 
-  //TODO: Api-Key misschien ook nog valideren?
   private void validate(Map<String, Object> options) {
     if (!options.containsKey(URL_KEY)) {
       throw new SourceException(String.format("Config '%s' is missing.", URL_KEY));

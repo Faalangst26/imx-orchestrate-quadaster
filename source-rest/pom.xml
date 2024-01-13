@@ -39,6 +39,10 @@
             <version>6.0.13</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>com.graphql-java</groupId>
+            <artifactId>graphql-java</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 final class RestWebClient {
 
     static WebClient create(RestOrchestrateConfig config) {
-        var key = config.getApiKey();
+
         Consumer<HttpHeaders> headerBuilder = headers -> Optional.ofNullable(config.getApiKey())
                 .ifPresent(apiKey -> headers.add("X-Api-Key", apiKey));
 

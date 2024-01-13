@@ -1,31 +1,36 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
+
+
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
-import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
-import nl.geostandaarden.imx.orchestrate.model.filters.FilterExpression;
-import nl.geostandaarden.imx.orchestrate.model.filters.FilterOperator;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.CollectionResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
+
+import java.util.*;
 
 @RequiredArgsConstructor
 public class CollectionRestMapper extends AbstractRestMapper<CollectionRequest> {
-
   private static final String OPERATION_NAME = "Query";
 
   private final RestOrchestrateConfig config;
 
+  //convert Collectionrequest to Map<String, Object>
+  @Override
   public Map<String, Object> convert(CollectionRequest request) {
-    return null;
-  }
+    Map<String, Object> data = new HashMap<>();
 
-  private String mapToFilterOperator(FilterOperator filterOperator) {
-    return switch (filterOperator.getType()) {
-      case "equals" -> "eq";
-      default -> throw new SourceException(String.format("Unknown filter operator '%s'", filterOperator.getType()));
-    };
+    // Add properties from AbstractDataRequest
+    data.put("ObjectType", request.getObjectType());
+    data.put("SelectedProperties", request.getSelectedProperties());
+
+    // Add filter if present
+    if (request.getFilter() != null) {
+      data.put("Filter", request.getFilter());
+    }
+
+    return data;
   }
 
 }

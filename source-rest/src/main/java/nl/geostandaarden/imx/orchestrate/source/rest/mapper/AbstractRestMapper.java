@@ -1,12 +1,9 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.mapper;
 
 import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
-import nl.geostandaarden.imx.orchestrate.engine.exchange.SelectedProperty;
-import nl.geostandaarden.imx.orchestrate.engine.source.SourceException;
+import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 abstract class AbstractRestMapper<T extends DataRequest> {
 
