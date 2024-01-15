@@ -279,6 +279,18 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
                     <version>3.2.0</version>
+<!--                    <configuration>-->
+<!--                        &lt;!&ndash; Specify the main class &ndash;&gt;-->
+<!--                        <mainClass>nl.geostandaarden.imx.orchestrate.gateway.GatewayApplication</mainClass>-->
+<!--                    </configuration>-->
+                    <executions>
+                        <execution>
+                            <goals>
+                                <!-- This goal will repackage the JAR to make it executable -->
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.sonarsource.scanner.maven</groupId>

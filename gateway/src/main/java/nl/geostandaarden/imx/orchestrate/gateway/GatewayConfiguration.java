@@ -24,6 +24,8 @@ import nl.geostandaarden.imx.orchestrate.model.loader.ModelLoader;
 import nl.geostandaarden.imx.orchestrate.model.loader.ModelLoaderRegistry;
 import nl.geostandaarden.imx.orchestrate.model.types.ValueTypeRegistry;
 import nl.geostandaarden.imx.orchestrate.parser.yaml.YamlModelMappingParser;
+import org.apache.commons.logging.Log;
+import org.projectnessie.cel.common.debug.Debug;
 import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -94,13 +96,21 @@ public class GatewayConfiguration {
     if (!sourceModels.containsKey(dataset)) {
       throw new GatewayException(String.format("No model with alias `%s` configured in model mapping.", dataset));
     }
+    log.debug("gang gang gang");
+    var berne = SourceType.class;
+    ServiceLoader<SourceType> loader = ServiceLoader.load(berne);
 
-    ServiceLoader<SourceType> loader = ServiceLoader.load(SourceType.class);
+    var emir = loader.stream()
+        .map(ServiceLoader.Provider::get);
 
-    return loader.stream()
-        .map(ServiceLoader.Provider::get)
-        .filter(e -> e.getName().equals(source.getType()))
-        .findFirst()
+    var wessel = emir
+        .filter(e -> e.getName().equals(source.getType()));
+    log.debug("gang gang gang West Side Wessel" + wessel.toString());
+    var herley = wessel
+            .findFirst();
+    log.debug("gang gang gang West Side Wessel" + herley.get().toString());
+
+    return herley
         .map(s -> s.create(sourceModels.get(dataset), source.getOptions()))
         .orElseThrow(() -> new GatewayException(String.format("Source type '%s' not found.", source.getType())));
   }
