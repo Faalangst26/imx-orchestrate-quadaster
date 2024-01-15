@@ -65,8 +65,16 @@ public class RemoteExecutor implements ApiExecutor {
 
         //Haal het eerste item uit de map, je kunt immers maar 1 ding in het URI plakken om op te zoeken
         Map.Entry<String, Object> entry = input.entrySet().iterator().next();
+        var key = input.keySet().iterator().next();
         var value = entry.getValue();
-        return ("/" + value.toString());
+
+
+        if(key.equals("identificatie")){
+            value = "?openbaarLichaam=" + value;
+        } else {
+            value = "/" + value;
+        }
+        return (value.toString());
     }
 
 //ArrayList<LinkedHashMap<String, Object>>
@@ -96,9 +104,8 @@ public class RemoteExecutor implements ApiExecutor {
             if (embeddedObject instanceof LinkedHashMap) {
                 LinkedHashMap<String, Object> embeddedMap = (LinkedHashMap<String, Object>) embeddedObject;
 
-                if (embeddedMap.containsKey("bestuurlijkeGebieden") || embeddedMap.containsKey("openbareLichamen")) {
-                    String keyToCheck = embeddedMap.containsKey("bestuurlijkeGebieden") ? "bestuurlijkeGebieden" : "openbareLichamen";
-                    Object bodyListObject = embeddedMap.get(keyToCheck);
+                Iterator<String> iterator = embeddedMap.keySet().iterator();
+                Object bodyListObject = embeddedMap.get(iterator.hasNext() ? iterator.next() : "defaultKey");
 
                     if (bodyListObject instanceof ArrayList) {
                         ArrayList<?> bodyList = (ArrayList<?>) bodyListObject;
@@ -112,7 +119,7 @@ public class RemoteExecutor implements ApiExecutor {
                             }
                         }
                     }
-                }
+
             }
         }
 
