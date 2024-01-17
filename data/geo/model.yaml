@@ -57,6 +57,12 @@ objectTypes:
       code:
         type: String
         cardinality: 1
+    relations:
+      municipality:
+        target: Municipality
+        cardinality: 0..1
+        inverseName: hasAdministrativeArea
+        inverseCardinality: 0..1
 
   Address:
     attributes:
@@ -180,3 +186,4 @@ objectTypes:
         identifier: true
       actieveBeheerderROO:
         type: String
+

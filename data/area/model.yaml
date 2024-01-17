@@ -17,5 +17,8 @@ objectTypes:
       openbaarLichaam:
         type: String
         cardinality: 1
+      municipality:
+        type: String
+        cardinality: 0..1
 
 

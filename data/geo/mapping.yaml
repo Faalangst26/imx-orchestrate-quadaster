@@ -26,6 +26,18 @@ sourceRelations:
       keyMapping:
         id: parcel
 
+  - sourceType: area:Administrativearea
+    property:
+      name: hasMunicipality
+      target: municipality:Municipality
+      cardinality: 0..1
+      inverseName: hasAdministrativeArea
+      inverseCardinality: 0..1
+      keyMapping:
+        organisatiecode: identificatie
+#        identificatie: organisatiecode
+
+
 objectTypeMappings:
   Publicbody:
     - sourceRoot: body:Publicbody
@@ -64,6 +76,9 @@ objectTypeMappings:
         code:
           pathMappings:
             path: code
+        municipality:
+          pathMappings:
+            path: hasMunicipality
 
 
   Construction:
@@ -270,3 +285,6 @@ objectTypeMappings:
         actieveBeheerderROO:
           pathMappings:
             path: actieveBeheerderROO
+        hasAdministrativearea:
+          pathMappings:
+            path: hasAdministrativeArea

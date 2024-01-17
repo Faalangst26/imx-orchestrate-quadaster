@@ -1,6 +1,5 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.repository;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest;
@@ -54,7 +53,7 @@ public class RestRepository implements DataRepository {
 
     @Override
     public boolean supportsBatchLoading(ObjectType objectType) {
-       return true;
+       return false;
     }
 
     private String getName(DataRequest request) {
