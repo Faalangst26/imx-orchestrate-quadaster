@@ -8,9 +8,5 @@ import java.util.Map;
 
 public interface ApiExecutor {
 
-    //krijg dict
-    //bestuurslaag => gemeente
-    //code => GM0014
-    //omzetten naar string
-    public Mono<AbstractResult> execute(Map<String, Object> input, AbstractDataRequest objectRequest);
+    Mono<AbstractResult> execute(Map<String, Object> input, AbstractDataRequest objectRequest);
 }

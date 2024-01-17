@@ -18,11 +18,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
-
 @RequiredArgsConstructor
 @Slf4j
 public class RestRepository implements DataRepository {
-    //Executor van RemoteExecutor
+
     private final ApiExecutor executor;
 
     private final ObjectRestMapper objectRestMapper;

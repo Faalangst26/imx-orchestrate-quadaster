@@ -23,6 +23,7 @@
     </scm>
 
     <properties>
+        <start-class>nl.geostandaarden.imx.orchestrate.gateway.GatewayApplication</start-class>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -304,6 +305,10 @@
                     <configuration>
                         <tagNameFormat>v@{project.version}</tagNameFormat>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
                 </plugin>
             </plugins>
         </pluginManagement>

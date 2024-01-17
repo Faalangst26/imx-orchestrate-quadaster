@@ -2,7 +2,6 @@ package nl.geostandaarden.imx.orchestrate.source.rest.executor;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.AbstractDataRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.BatchResult;
@@ -16,7 +15,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.*;
 
-@Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class RemoteExecutor implements ApiExecutor {
 
@@ -24,18 +22,17 @@ public class RemoteExecutor implements ApiExecutor {
 
     private static AbstractResult requestType;
 
-    //Maak een nieuwe RemoteExecutor, en een nieuwe configuratie in de RestWebClient
     public static RemoteExecutor create(RestOrchestrateConfig config) {
         return new RemoteExecutor(RestWebClient.create(config));
     }
 
     @Override
-    public Mono<AbstractResult> execute(Map<String, Object> input, AbstractDataRequest objectRequest) {
+    public Mono<AbstractResult> execute(Map<String, Object> requestedData, AbstractDataRequest objectRequest) {
     requestType = getRequestType(objectRequest);
         var mapTypeRef = new ParameterizedTypeReference<Map<String, Object>>() {};
 
         return this.webClient.get()
-                .uri(createUri(input))
+                .uri(createUri(requestedData))
                 .accept(MediaType.valueOf("application/hal+json"))
                 .retrieve()
                 .bodyToMono(mapTypeRef)
@@ -56,16 +53,16 @@ public class RemoteExecutor implements ApiExecutor {
         };
     }
 
-    private static String createUri(Map<String, Object> input) {
-        if (input == null)
+    private static String createUri(Map<String, Object> requestedData) {
+        if (requestedData == null)
             return "";
 
-        if (input.size() != 1)
+        if (requestedData.size() != 1)
             return "";
 
         //Haal het eerste item uit de map, je kunt immers maar 1 ding in het URI plakken om op te zoeken
-        Map.Entry<String, Object> entry = input.entrySet().iterator().next();
-        var key = input.keySet().iterator().next();
+        Map.Entry<String, Object> entry = requestedData.entrySet().iterator().next();
+        var key = requestedData.keySet().iterator().next();
         var value = entry.getValue();
 
 
@@ -77,7 +74,6 @@ public class RemoteExecutor implements ApiExecutor {
         return (value.toString());
     }
 
-//ArrayList<LinkedHashMap<String, Object>>
     private static AbstractResult mapToResult(Map<String, Object> body) {
         AbstractResult result;
         ArrayList<LinkedHashMap<String, Object>> resultlist = new ArrayList<>();
@@ -110,7 +106,6 @@ public class RemoteExecutor implements ApiExecutor {
                     if (bodyListObject instanceof ArrayList) {
                         ArrayList<?> bodyList = (ArrayList<?>) bodyListObject;
 
-                        // Assuming each element in the body list is a linked hash map
                         for (Object item : bodyList) {
                             if (item instanceof LinkedHashMap) {
                                 resultlist.add((LinkedHashMap<String, Object>) item);

@@ -13,7 +13,6 @@ import nl.geostandaarden.imx.orchestrate.source.rest.repository.RestRepository;
 public class RestSource implements Source {
 
   private final RestOrchestrateConfig config;
-
   public RestSource(RestOrchestrateConfig config) {
     this.config = config;
   }
