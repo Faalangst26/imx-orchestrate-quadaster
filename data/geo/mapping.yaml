@@ -35,7 +35,6 @@ sourceRelations:
       inverseCardinality: 0..1
       keyMapping:
         organisatiecode: identificatie
-#        identificatie: organisatiecode
 
 
 objectTypeMappings:
