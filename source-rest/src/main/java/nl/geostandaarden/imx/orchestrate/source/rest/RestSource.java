@@ -19,7 +19,7 @@ public class RestSource implements Source {
 
   @Override
   public DataRepository getDataRepository() {
-    return new RestRepository(RemoteExecutor.create(config), new ObjectRestMapper(config),
-      new CollectionRestMapper(config), new BatchRestMapper(config), new ResponseMapper(config));
+    return new RestRepository(RemoteExecutor.create(config), new ObjectRestMapper(),
+      new CollectionRestMapper(), new BatchRestMapper(), new ResponseMapper());
   }
 }

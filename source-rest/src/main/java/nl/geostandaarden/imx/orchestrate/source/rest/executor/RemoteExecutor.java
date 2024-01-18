@@ -15,12 +15,13 @@ import reactor.core.publisher.Mono;
 
 import java.util.*;
 
+@SuppressWarnings("SpellCheckingInspection")
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 public class RemoteExecutor implements ApiExecutor {
 
     private final WebClient webClient;
 
-    private static AbstractResult requestType;
+    static AbstractResult requestType;
 
     public static RemoteExecutor create(RestOrchestrateConfig config) {
         return new RemoteExecutor(RestWebClient.create(config));
@@ -74,10 +75,10 @@ public class RemoteExecutor implements ApiExecutor {
         return (value.toString());
     }
 
-    private static AbstractResult mapToResult(Map<String, Object> body) {
+    static AbstractResult mapToResult(Map<String, Object> body) {
         AbstractResult result;
         ArrayList<LinkedHashMap<String, Object>> resultlist = new ArrayList<>();
-        //Als de return body meer als 2 items heeft (meer als _embedded  en _links) dan is het een enkel resultaat uit een zoek query
+        //Als de return body meer als 2 items heeft (meer als _embedded en _links) dan is het een enkel resultaat uit een zoek query
         if(body.size() > 2 ){
             resultlist.add((LinkedHashMap<String, Object>) body);
             result = new ObjectResult(null);
@@ -118,7 +119,9 @@ public class RemoteExecutor implements ApiExecutor {
             }
         }
 
-        result.data = resultlist;
+        if (result != null) {
+            result.data = resultlist;
+        }
         return result;
     }
 }

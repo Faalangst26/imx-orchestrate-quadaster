@@ -1,6 +1,7 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.executor;
 
 import nl.geostandaarden.imx.orchestrate.source.rest.config.RestOrchestrateConfig;
+import nl.geostandaarden.imx.orchestrate.source.rest.executor.RestWebClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -26,7 +27,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @MockitoSettings(strictness = Strictness.LENIENT)
-class RemoteExecutorTest {
+class RestWebClientTest {
 
     @Mock
     private ExchangeFunction exchangeFunction;
@@ -46,8 +47,8 @@ class RemoteExecutorTest {
     void create_returnsWebClient_withConfig() {
         var config = RestOrchestrateConfig
                 .builder()
+                .apiKey("123456790")
                 .baseUrl("http://localhost:8080")
-                .apiKey("0987654321")
                 .build();
 
         createWebClientAndFireRequest(config);
@@ -55,7 +56,7 @@ class RemoteExecutorTest {
 
         assertThat(request.url().toString()).hasToString("http://localhost:8080/path");
         assertThat(request.headers()).containsKey("X-Api-Key");
-        assertThat(request.headers()).containsEntry("X-Api-Key", List.of("0987654321"));
+        assertThat(request.headers()).containsEntry("X-Api-Key", List.of("123456790"));
     }
 
     @Test

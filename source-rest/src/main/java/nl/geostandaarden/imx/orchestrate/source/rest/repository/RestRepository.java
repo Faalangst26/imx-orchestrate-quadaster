@@ -7,7 +7,6 @@ import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.DataRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.engine.source.DataRepository;
-import nl.geostandaarden.imx.orchestrate.model.ObjectType;
 import nl.geostandaarden.imx.orchestrate.source.rest.executor.ApiExecutor;
 import nl.geostandaarden.imx.orchestrate.source.rest.mapper.BatchRestMapper;
 import nl.geostandaarden.imx.orchestrate.source.rest.mapper.CollectionRestMapper;
@@ -41,18 +40,13 @@ public class RestRepository implements DataRepository {
     @Override
     public Flux<Map<String, Object>> find(CollectionRequest collectionRequest) {
         var rest = collectionRestMapper.convert(collectionRequest);
-        return responseMapper.processFindResult(this.executor.execute(rest, collectionRequest), getName(collectionRequest));
+        return responseMapper.processFindResult(this.executor.execute(rest, collectionRequest));
     }
 
     @Override
     public Flux<Map<String, Object>> findBatch(BatchRequest batchRequest) {
         var rest = batchRestMapper.convert(batchRequest);
         return responseMapper.processBatchResult(this.executor.execute(rest, batchRequest), getName(batchRequest));
-    }
-
-    @Override
-    public boolean supportsBatchLoading(ObjectType objectType) {
-       return false;
     }
 
     private String getName(DataRequest request) {

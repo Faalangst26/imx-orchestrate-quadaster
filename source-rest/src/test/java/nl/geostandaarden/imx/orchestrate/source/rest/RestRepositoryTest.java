@@ -1,3 +1,4 @@
+package nl.geostandaarden.imx.orchestrate.source.rest;
 
 import nl.geostandaarden.imx.orchestrate.engine.exchange.BatchRequest;
 import nl.geostandaarden.imx.orchestrate.engine.exchange.CollectionRequest;
@@ -20,13 +21,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.*;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.never;
 
 @ExtendWith(MockitoExtension.class)
 class RestRepositoryTest {
-
     @Mock
     private ApiExecutor executor;
 
@@ -54,7 +52,7 @@ class RestRepositoryTest {
         verifyNoInteractions(batchRestMapper);
 
         verify(responseMapper, times(1)).processFindOneResult(any());
-        verify(responseMapper, never()).processFindResult(any(), any());
+        verify(responseMapper, never()).processFindResult(any());
         verify(responseMapper, never()).processBatchResult(any(), any());
     }
 
@@ -67,7 +65,7 @@ class RestRepositoryTest {
         verifyNoInteractions(batchRestMapper);
 
         verify(responseMapper, never()).processFindOneResult(any());
-        verify(responseMapper, times(1)).processFindResult(any(), any());
+        verify(responseMapper, times(1)).processFindResult(any());
         verify(responseMapper, never()).processBatchResult(any(), any());
     }
 
@@ -80,7 +78,7 @@ class RestRepositoryTest {
         verify(batchRestMapper, times(1)).convert(any(BatchRequest.class));
 
         verify(responseMapper, never()).processFindOneResult(any());
-        verify(responseMapper, never()).processFindResult(any(), any());
+        verify(responseMapper, never()).processFindResult(any());
         verify(responseMapper, times(1)).processBatchResult(any(), any());
     }
 
