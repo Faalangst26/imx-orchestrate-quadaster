@@ -1,6 +1,8 @@
 package nl.geostandaarden.imx.orchestrate.source.rest.executor;
 
 
+import nl.geostandaarden.imx.orchestrate.engine.exchange.AbstractDataRequest;
+import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.CollectionResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.ObjectResult;
@@ -70,6 +72,29 @@ class RemoteExecutorTest {
         assertThat(mappedResult.data).isEqualTo(collectionResult.data);
     }
 
+    @Test
+    void createURINoInput(){
+        Map<String, Object> input = Map.of();
+        var result = RemoteExecutor.createUri(input);
+
+        assertThat(result).isEqualTo("");
+    }
+
+    @Test
+    void createURIInput(){
+        Map<String, Object> input = Map.of("code","test");
+        var result = RemoteExecutor.createUri(input);
+
+        assertThat(result).isEqualTo("/test");
+    }
+
+    @Test
+    void getRequestTypeNull(){
+        AbstractDataRequest request = null;
+        var result = RemoteExecutor.getRequestType(request);
+
+        assertThat(result).isEqualTo(null);
+    }
 
 
     LinkedHashMap<String, Object> mockBody(){

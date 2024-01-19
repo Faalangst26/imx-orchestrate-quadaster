@@ -41,7 +41,7 @@ public class RemoteExecutor implements ApiExecutor {
 
     }
 
-    private static AbstractResult getRequestType(AbstractDataRequest objectRequest) {
+     static AbstractResult getRequestType(AbstractDataRequest objectRequest) {
         if (objectRequest == null) {
             return null;
         }
@@ -54,7 +54,7 @@ public class RemoteExecutor implements ApiExecutor {
         };
     }
 
-    private static String createUri(Map<String, Object> requestedData) {
+    static String createUri(Map<String, Object> requestedData) {
         if (requestedData == null)
             return "";
 

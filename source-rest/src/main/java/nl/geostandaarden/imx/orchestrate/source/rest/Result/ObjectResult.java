@@ -8,5 +8,4 @@ public class ObjectResult extends AbstractResult<Map<String, Object>> {
         super(data, "Object");
     }
 
-
 }
