@@ -6,6 +6,7 @@ import nl.geostandaarden.imx.orchestrate.engine.exchange.ObjectRequest;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.AbstractResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.CollectionResult;
 import nl.geostandaarden.imx.orchestrate.source.rest.Result.ObjectResult;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -15,12 +16,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import reactor.core.publisher.Mono;
 
+import java.net.Authenticator;
+import java.rmi.Remote;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
 
+import static graphql.Assert.assertNotNull;
+import static graphql.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,7 +45,35 @@ class RemoteExecutorTest {
         RemoteExecutor remoteExecutor = mock();
         executor = remoteExecutor;
     }
+    @Test
+    public void testMapToResult_SingleObjectResult() {
+        Map<String, Object> body = mockBody();
+        RemoteExecutor.requestType = new ObjectResult(body);
+        AbstractResult result = RemoteExecutor.mapToResult(body);
+        assertTrue(result instanceof ObjectResult);
+    }
 
+    @Test
+    public void testMapToResult_MultipleObjectResults() {
+        Map<String, Object> body = mockBody();
+        RemoteExecutor.requestType = new CollectionResult(null);
+
+        AbstractResult result = RemoteExecutor.mapToResult(body);
+        assertTrue(result instanceof CollectionResult);
+    }
+
+    @Test
+    public void testMapToResult_NullResultType() {
+        Map<String, Object> body = mockBody();
+        AbstractResult result = RemoteExecutor.mapToResult(body);
+        assertNull(result);
+    }
+    @Test
+    public void testMapToResult_InvalidInput() {
+        Map<String,Object> body = (Map<String, Object>) mockBody().remove("_embedded");
+        AbstractResult result = RemoteExecutor.mapToResult(body);
+        assertNull(result);
+    }
     @Test
     void mapToResultReturnsObject() {
         var result = mockBody();

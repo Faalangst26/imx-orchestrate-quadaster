@@ -76,53 +76,70 @@ public class RemoteExecutor implements ApiExecutor {
     }
 
     static AbstractResult mapToResult(Map<String, Object> body) {
-        AbstractResult result;
-        ArrayList<LinkedHashMap<String, Object>> resultlist = new ArrayList<>();
-        //Als de return body meer als 2 items heeft (meer als _embedded en _links) dan is het een enkel resultaat uit een zoek query
-        if(body.size() > 2 ){
-            resultlist.add((LinkedHashMap<String, Object>) body);
-            result = new ObjectResult(null);
-            result.data = resultlist;
-            return result;
-        }
+        if(isValidInput(body)) {
+            AbstractResult result;
 
-        if (requestType instanceof CollectionResult) {
-            result = new CollectionResult(null);
-        } else if (requestType instanceof BatchResult) {
-            result = new BatchResult(null);
-        } else if (requestType instanceof ObjectResult) {
-            result = new ObjectResult(null);
-        } else {
-            result = null;
-        }
-        if (body.containsKey("_embedded")) {
-            Object embeddedObject = body.get("_embedded");
+            if (isSingleObjectResult(body)) {
+                return createSingleObjectResult((LinkedHashMap<String, Object>)body);
+            }
+            ArrayList<LinkedHashMap<String, Object>> multipleObjectResults = createMultipleObjectResults(body);
+            result = determineResultType();
 
-            if (embeddedObject instanceof LinkedHashMap) {
-                LinkedHashMap<String, Object> embeddedMap = (LinkedHashMap<String, Object>) embeddedObject;
-
-                Iterator<String> iterator = embeddedMap.keySet().iterator();
-                Object bodyListObject = embeddedMap.get(iterator.hasNext() ? iterator.next() : "defaultKey");
-
-                    if (bodyListObject instanceof ArrayList) {
-                        ArrayList<?> bodyList = (ArrayList<?>) bodyListObject;
-
-                        for (Object item : bodyList) {
-                            if (item instanceof LinkedHashMap) {
-                                resultlist.add((LinkedHashMap<String, Object>) item);
-
-
-                            }
-                        }
-                    }
-
+            if (result != null) {
+                result.data = multipleObjectResults;
+                return result;
             }
         }
+        return null;
+    }
+    static AbstractResult createSingleObjectResult(LinkedHashMap<String, Object> body) {
+        ArrayList<LinkedHashMap<String, Object>> resultlist = new ArrayList<>();
+        resultlist.add(body);
+        AbstractResult result = new ObjectResult(null);
+        result.data = resultlist;
 
-        if (result != null) {
-            result.data = resultlist;
-        }
         return result;
+    }
+    static ArrayList<LinkedHashMap<String, Object>> createMultipleObjectResults(Map<String, Object> body) {
+        ArrayList<LinkedHashMap<String, Object>> resultlist = new ArrayList<>();
+        Object embeddedObject = body.get("_embedded");
+        if (embeddedObject instanceof LinkedHashMap) {
+            LinkedHashMap<String, Object> embeddedMap = (LinkedHashMap<String, Object>) embeddedObject;
+
+            Iterator<String> iterator = embeddedMap.keySet().iterator();
+            Object bodyListObject = embeddedMap.get(iterator.hasNext() ? iterator.next() : "defaultKey");
+
+            if (bodyListObject instanceof ArrayList) {
+                ArrayList<?> bodyList = (ArrayList<?>) bodyListObject;
+
+                for (Object item : bodyList) {
+                    if (item instanceof LinkedHashMap) {
+                        resultlist.add((LinkedHashMap<String, Object>) item);
+                    }
+                }
+            }
+        }
+        return resultlist;
+    }
+    static boolean isValidInput(Map<String, Object> body)
+    {
+        return body.containsKey("_embedded");
+    }
+
+    static AbstractResult determineResultType() {
+        if (requestType instanceof CollectionResult) {
+            return new CollectionResult(null);
+        } else if (requestType instanceof BatchResult) {
+            return new BatchResult(null);
+        } else if (requestType instanceof ObjectResult) {
+            return new ObjectResult(null);
+        }
+        return null;
+    }
+
+    static boolean isSingleObjectResult(Map<String, Object> body) {
+        //Als de return body meer als 2 items heeft (meer als _embedded en _links) dan is het een enkel resultaat uit een zoek query
+        return body.size() > 2;
     }
 }
 
